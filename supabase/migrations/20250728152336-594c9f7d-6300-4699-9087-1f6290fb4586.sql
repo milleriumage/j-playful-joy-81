@@ -1,0 +1,1 @@
+UPDATE public.usuarios SET acesso = false;

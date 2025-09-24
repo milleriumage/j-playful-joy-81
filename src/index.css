@@ -1,6 +1,26 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom animations for price movement */
+@keyframes slide-right-to-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slide-bottom-to-top {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
 
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
@@ -8,89 +28,462 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 0 0% 100%; /* #ffffff - Branco puro */
+    --foreground: 220 39% 8%; /* #0f172a - Preto mais escuro para melhor contraste */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%; /* #ffffff - Branco puro */
+    --card-foreground: 220 39% 8%; /* #0f172a - Preto mais escuro */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%; /* #ffffff - Branco puro */
+    --popover-foreground: 220 39% 8%; /* #0f172a - Preto mais escuro */
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 351 100% 50%; /* #ff1a4d - Rosa mais escura para melhor contraste */
+    --primary-foreground: 0 0% 100%; /* #ffffff - Branco puro para contraste */
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 220 15% 90%; /* #e2e8f0 - Cinza claro com mais contraste */
+    --secondary-foreground: 220 39% 8%; /* #0f172a - Preto mais escuro */
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 220 15% 90%; /* #e2e8f0 - Cinza claro */
+    --muted-foreground: 220 39% 20%; /* #334155 - Cinza escuro para texto */
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 0 84% 50%; /* #dc2626 - Vermelho mais escuro para melhor contraste */
+    --accent-foreground: 0 0% 100%; /* #ffffff - Branco puro para contraste */
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --success: 142 76% 36%; /* #16a34a - Verde suave */
+    --success-foreground: 220 14% 96%; /* #f9fafb - Cinza claro para contraste */
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --destructive: 0 84% 60%; /* #ef4444 - Vermelho vivo */
+    --destructive-foreground: 220 14% 96%; /* #f9fafb - Cinza claro para contraste */
+
+    --border: 220 13% 91%; /* #e5e7eb - Cinza leve */
+    --input: 220 13% 91%; /* #e5e7eb - Cinza leve */
+    --ring: 351 100% 65%; /* #ff4d6d - Rosa forte */
+
+    --gold: 51 100% 50%; /* #FFD700 - Ouro metálico puro */
+    --gold-foreground: 220 39% 11%; /* #1f2937 - Preto grafite para contraste */
+    --dream-white: 0 0% 100%; /* #FFFFFF - Branco puro */
+    --dream-gray: 0 0% 80%; /* #CCCCCC - Cinza neutro claro */
 
     --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 220 14% 96%; /* #f9fafb - Cinza claro */
+    --sidebar-foreground: 220 39% 11%; /* #1f2937 - Preto grafite */
+    --sidebar-primary: 351 100% 65%; /* #ff4d6d - Rosa forte */
+    --sidebar-primary-foreground: 220 14% 96%; /* #f9fafb - Cinza claro */
+    --sidebar-accent: 322 84% 95%; /* #fce7f3 - Rosé suave */
+    --sidebar-accent-foreground: 220 39% 11%; /* #1f2937 - Preto grafite */
+    --sidebar-border: 220 13% 91%; /* #e5e7eb - Cinza leve */
+    --sidebar-ring: 351 100% 65%; /* #ff4d6d - Rosa forte */
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 220 39% 11%; /* #1f2937 - Preto grafite */
+    --foreground: 220 14% 96%; /* #f9fafb - Cinza claro */
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 220 39% 11%; /* #1f2937 - Preto grafite */
+    --card-foreground: 220 14% 96%; /* #f9fafb - Cinza claro */
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 220 39% 11%; /* #1f2937 - Preto grafite */
+    --popover-foreground: 220 14% 96%; /* #f9fafb - Cinza claro */
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 351 100% 65%; /* #ff4d6d - Rosa forte */
+    --primary-foreground: 220 39% 11%; /* #1f2937 - Preto grafite para contraste */
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 322 25% 20%; /* Versão escura do rosé suave */
+    --secondary-foreground: 220 14% 96%; /* #f9fafb - Cinza claro */
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 322 25% 20%; /* Versão escura do rosé suave */
+    --muted-foreground: 220 14% 96%; /* #f9fafb - Cinza claro */
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 0 84% 60%; /* #ef4444 - Vermelho vivo */
+    --accent-foreground: 220 14% 96%; /* #f9fafb - Cinza claro */
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --success: 142 76% 36%; /* #16a34a - Verde suave */
+    --success-foreground: 220 14% 96%; /* #f9fafb - Cinza claro para contraste */
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --destructive: 0 84% 60%; /* #ef4444 - Vermelho vivo */
+    --destructive-foreground: 220 14% 96%; /* #f9fafb - Cinza claro */
+
+    --border: 220 13% 25%; /* Versão escura do cinza leve */
+    --input: 220 13% 25%; /* Versão escura do cinza leve */
+    --ring: 351 100% 65%; /* #ff4d6d - Rosa forte */
+
+    --gold: 51 100% 50%; /* #FFD700 - Ouro metálico puro */
+    --gold-foreground: 220 14% 96%; /* #f9fafb - Cinza claro para contraste no dark mode */
+    --dream-white: 0 0% 100%; /* #FFFFFF - Branco puro */
+    --dream-gray: 0 0% 80%; /* #CCCCCC - Cinza neutro claro */
+    
+    --sidebar-background: 220 39% 11%; /* #1f2937 - Preto grafite */
+    --sidebar-foreground: 220 14% 96%; /* #f9fafb - Cinza claro */
+    --sidebar-primary: 351 100% 65%; /* #ff4d6d - Rosa forte */
+    --sidebar-primary-foreground: 220 39% 11%; /* #1f2937 - Preto grafite */
+    --sidebar-accent: 322 25% 20%; /* Versão escura do rosé suave */
+    --sidebar-accent-foreground: 220 14% 96%; /* #f9fafb - Cinza claro */
+    --sidebar-border: 220 13% 25%; /* Versão escura do cinza leve */
+    --sidebar-ring: 351 100% 65%; /* #ff4d6d - Rosa forte */
+  }
+
+  /* Paleta de cores suaves - mantida após reinicialização */
+  .soft-palette {
+    --background: 210 20% 98%; /* #fcfcfd - Branco suave */
+    --foreground: 215 16% 22%; /* #333842 - Cinza muito escuro */
+    
+    --card: 210 20% 98%; /* #fcfcfd - Branco suave */
+    --card-foreground: 215 16% 22%; /* #333842 - Cinza muito escuro */
+    
+    --primary: 338 71% 75%; /* #e892b8 - Rosa suave */
+    --primary-foreground: 210 20% 98%; /* #fcfcfd - Branco suave para contraste */
+    
+    --secondary: 210 17% 92%; /* #ebebef - Cinza muito claro */
+    --secondary-foreground: 215 16% 22%; /* #333842 - Cinza muito escuro */
+    
+    --muted: 210 17% 92%; /* #ebebef - Cinza muito claro */
+    --muted-foreground: 215 14% 45%; /* #6b7280 - Cinza médio */
+    
+    --accent: 200 70% 80%; /* #9dd7f0 - Azul suave */
+    --accent-foreground: 215 16% 22%; /* #333842 - Cinza muito escuro */
+    
+    --border: 210 17% 87%; /* #dadadf - Cinza claro */
+    --input: 210 17% 87%; /* #dadadf - Cinza claro */
+    --ring: 338 71% 75%; /* #e892b8 - Rosa suave */
+    
+    --gold: 48 89% 78%; /* #f3e899 - Dourado suave */
+    --gold-foreground: 215 16% 22%; /* #333842 - Cinza muito escuro */
+  }
+
+  /* Paleta de cores profissional */
+  .professional-palette {
+    --background: 220 14% 98%; /* #fefefe - Branco quase puro */
+    --foreground: 210 40% 8%; /* #0f1419 - Preto azulado profissional */
+
+    --card: 220 14% 98%; /* #fefefe - Branco quase puro */
+    --card-foreground: 210 40% 8%; /* #0f1419 - Preto azulado profissional */
+
+    --popover: 220 14% 98%; /* #fefefe - Branco quase puro */
+    --popover-foreground: 210 40% 8%; /* #0f1419 - Preto azulado profissional */
+
+    --primary: 212 100% 47%; /* #0066cc - Azul corporativo */
+    --primary-foreground: 0 0% 100%; /* #ffffff - Branco puro para contraste */
+
+    --secondary: 210 15% 95%; /* #f4f5f6 - Cinza corporativo suave */
+    --secondary-foreground: 210 40% 8%; /* #0f1419 - Preto azulado profissional */
+
+    --muted: 210 15% 95%; /* #f4f5f6 - Cinza corporativo suave */
+    --muted-foreground: 210 40% 20%; /* #334155 - Cinza médio profissional */
+
+    --accent: 217 91% 60%; /* #3b82f6 - Azul moderno */
+    --accent-foreground: 0 0% 100%; /* #ffffff - Branco puro para contraste */
+
+    --success: 142 71% 45%; /* #22c55e - Verde profissional */
+    --success-foreground: 0 0% 100%; /* #ffffff - Branco puro para contraste */
+
+    --destructive: 0 84% 60%; /* #ef4444 - Vermelho padrão (mantido) */
+    --destructive-foreground: 0 0% 100%; /* #ffffff - Branco puro para contraste */
+
+    --border: 210 15% 90%; /* #e2e4e7 - Cinza corporativo leve */
+    --input: 210 15% 90%; /* #e2e4e7 - Cinza corporativo leve */
+    --ring: 212 100% 47%; /* #0066cc - Azul corporativo */
+
+    --gold: 45 100% 51%; /* #ffc107 - Dourado profissional */
+    --gold-foreground: 210 40% 8%; /* #0f1419 - Preto azulado para contraste */
+    
+    --sidebar-background: 220 14% 98%; /* #fefefe - Branco quase puro */
+    --sidebar-foreground: 210 40% 8%; /* #0f1419 - Preto azulado profissional */
+    --sidebar-primary: 212 100% 47%; /* #0066cc - Azul corporativo */
+    --sidebar-primary-foreground: 0 0% 100%; /* #ffffff - Branco puro */
+    --sidebar-accent: 210 15% 95%; /* #f4f5f6 - Cinza corporativo suave */
+    --sidebar-accent-foreground: 210 40% 8%; /* #0f1419 - Preto azulado profissional */
+    --sidebar-border: 210 15% 90%; /* #e2e4e7 - Cinza corporativo leve */
+    --sidebar-ring: 212 100% 47%; /* #0066cc - Azul corporativo */
+  }
+
+  .professional-palette.dark {
+    --background: 210 40% 8%; /* #0f1419 - Preto azulado profissional */
+    --foreground: 0 0% 98%; /* #fafafa - Branco suave */
+
+    --card: 210 40% 8%; /* #0f1419 - Preto azulado profissional */
+    --card-foreground: 0 0% 98%; /* #fafafa - Branco suave */
+
+    --popover: 210 40% 8%; /* #0f1419 - Preto azulado profissional */
+    --popover-foreground: 0 0% 98%; /* #fafafa - Branco suave */
+
+    --primary: 212 100% 55%; /* #1a73e8 - Azul corporativo claro */
+    --primary-foreground: 210 40% 8%; /* #0f1419 - Preto azulado para contraste */
+
+    --secondary: 210 40% 15%; /* #1e293b - Cinza escuro corporativo */
+    --secondary-foreground: 0 0% 98%; /* #fafafa - Branco suave */
+
+    --muted: 210 40% 15%; /* #1e293b - Cinza escuro corporativo */
+    --muted-foreground: 0 0% 78%; /* #c7c8cc - Cinza claro profissional */
+
+    --accent: 217 91% 65%; /* #60a5fa - Azul moderno claro */
+    --accent-foreground: 210 40% 8%; /* #0f1419 - Preto azulado para contraste */
+
+    --success: 142 71% 50%; /* #10b981 - Verde profissional claro */
+    --success-foreground: 210 40% 8%; /* #0f1419 - Preto azulado para contraste */
+
+    --destructive: 0 84% 60%; /* #ef4444 - Vermelho padrão (mantido) */
+    --destructive-foreground: 0 0% 98%; /* #fafafa - Branco suave */
+
+    --border: 210 40% 20%; /* #2d3748 - Cinza escuro corporativo leve */
+    --input: 210 40% 20%; /* #2d3748 - Cinza escuro corporativo leve */
+    --ring: 212 100% 55%; /* #1a73e8 - Azul corporativo claro */
+
+    --gold: 45 100% 60%; /* #ffd700 - Dourado profissional claro */
+    --gold-foreground: 210 40% 8%; /* #0f1419 - Preto azulado para contraste */
+    
+    --sidebar-background: 210 40% 8%; /* #0f1419 - Preto azulado profissional */
+    --sidebar-foreground: 0 0% 98%; /* #fafafa - Branco suave */
+    --sidebar-primary: 212 100% 55%; /* #1a73e8 - Azul corporativo claro */
+    --sidebar-primary-foreground: 210 40% 8%; /* #0f1419 - Preto azulado */
+    --sidebar-accent: 210 40% 15%; /* #1e293b - Cinza escuro corporativo */
+    --sidebar-accent-foreground: 0 0% 98%; /* #fafafa - Branco suave */
+    --sidebar-border: 210 40% 20%; /* #2d3748 - Cinza escuro corporativo leve */
+    --sidebar-ring: 212 100% 55%; /* #1a73e8 - Azul corporativo claro */
+  }
+
+  /* Professional Palette Prime - Cores corporativas com máxima legibilidade */
+  .professional-palette-prime {
+    --background: 0 0% 98%; /* Fundo quase branco */
+    --foreground: 210 11% 15%; /* Texto quase preto #111827 */
+    --card: 0 0% 100%; /* Cards brancos */
+    --card-foreground: 210 11% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 11% 15%;
+    --primary: 214 88% 27%; /* Azul corporativo #1e40af */
+    --primary-foreground: 0 0% 98%;
+    --secondary: 215 25% 27%; /* Cinza escuro #374151 */
+    --secondary-foreground: 0 0% 98%;
+    --muted: 210 40% 94%; /* Cinza muito claro #f3f4f6 */
+    --muted-foreground: 215 16% 47%; /* Cinza escuro #4b5563 */
+    --accent: 210 40% 94%;
+    --accent-foreground: 210 11% 15%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 214 32% 91%; /* Cinza médio #d1d5db */
+    --input: 0 0% 100%;
+    --ring: 214 88% 27%;
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 98%;
+    --gold: 45 93% 47%;
+    --gold-foreground: 0 0% 98%;
+    
+    /* Cores específicas para ações com alta visibilidade */
+    --prof-button-primary: 214 88% 27%; /* Azul corporativo */
+    --prof-button-secondary: 215 25% 27%; /* Cinza escuro */
+    --prof-icon-action: 0 0% 98%; /* Branco para ícones */
+    --prof-text-primary: 210 11% 15%; /* Quase preto */
+    --prof-text-secondary: 215 16% 47%; /* Cinza escuro */
+    --prof-border: 214 32% 91%; /* Bordas visíveis */
+    
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 210 11% 15%;
+    --sidebar-primary: 214 88% 27%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 210 40% 94%;
+    --sidebar-accent-foreground: 210 11% 15%;
+    --sidebar-border: 214 32% 91%;
+    --sidebar-ring: 214 88% 27%;
+  }
+
+  .professional-palette-prime.dark {
+    --background: 214 32% 18%; /* Azul escuro corporativo */
+    --foreground: 0 0% 95%; /* Branco suave */
+    --card: 214 32% 18%;
+    --card-foreground: 0 0% 95%;
+    --popover: 214 32% 18%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 214 88% 45%; /* Azul corporativo mais claro */
+    --primary-foreground: 214 32% 18%;
+    --secondary: 215 25% 35%; /* Cinza mais claro no dark */
+    --secondary-foreground: 0 0% 95%;
+    --muted: 214 32% 25%; /* Azul escuro */
+    --muted-foreground: 210 40% 70%; /* Cinza claro */
+    --accent: 214 88% 55%;
+    --accent-foreground: 214 32% 18%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 95%;
+    --border: 214 32% 35%; /* Bordas mais visíveis no dark */
+    --input: 214 32% 25%;
+    --ring: 214 88% 45%;
+    --success: 142 76% 50%;
+    --success-foreground: 214 32% 18%;
+    --gold: 45 93% 60%;
+    --gold-foreground: 214 32% 18%;
+    
+    /* Cores específicas para dark mode */
+    --prof-button-primary: 214 88% 45%;
+    --prof-button-secondary: 215 25% 35%;
+    --prof-icon-action: 0 0% 95%;
+    --prof-text-primary: 0 0% 95%;
+    --prof-text-secondary: 210 40% 70%;
+    --prof-border: 214 32% 35%;
+    
+    --sidebar-background: 214 32% 18%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 214 88% 45%;
+    --sidebar-primary-foreground: 214 32% 18%;
+    --sidebar-accent: 214 32% 25%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 214 32% 35%;
+    --sidebar-ring: 214 88% 45%;
+  }
+
+  /* Paleta Home - Gradiente roxo/azul moderno com alta legibilidade */
+  .home-palette {
+    /* Gradiente principal - roxo para azul otimizado para contraste */
+    --background: linear-gradient(135deg, hsl(270, 85%, 50%) 0%, hsl(220, 85%, 55%) 100%);
+    --foreground: 0 0% 100%; /* #ffffff - Branco puro para máximo contraste */
+
+    /* Cards e componentes com fundo mais sólido para legibilidade */
+    --card: 0 0% 10% / 0.85; /* Fundo escuro semi-transparente para alto contraste */
+    --card-foreground: 0 0% 100%; /* #ffffff - Branco puro */
+
+    --popover: 0 0% 8% / 0.90; /* Fundo mais escuro para popovers com melhor legibilidade */
+    --popover-foreground: 0 0% 100%; /* #ffffff - Branco puro */
+
+    /* Botões primários - cores sólidas para máxima visibilidade */
+    --primary: 270 90% 35%; /* #6b21a8 - Roxo escuro para contraste WCAG AA */
+    --primary-foreground: 0 0% 100%; /* #ffffff - Branco puro */
+    --primary-hover: 270 90% 40%; /* Roxo ligeiramente mais claro no hover */
+
+    /* Botões secundários - fundo sólido com transparência controlada */
+    --secondary: 0 0% 15% / 0.80; /* Fundo escuro semi-transparente */
+    --secondary-foreground: 0 0% 100%; /* #ffffff - Branco puro */
+    --secondary-hover: 0 0% 20% / 0.85; /* Mais visível no hover */
+
+    /* Elementos muted com contraste melhorado */
+    --muted: 0 0% 12% / 0.70; /* Fundo escuro para melhor legibilidade */
+    --muted-foreground: 0 0% 95%; /* #f2f2f2 - Branco suave para texto secundário */
+
+    /* Accent - azul forte para ações importantes */
+    --accent: 220 85% 35%; /* #1e40af - Azul escuro para contraste WCAG AA */
+    --accent-foreground: 0 0% 100%; /* #ffffff - Branco puro */
+
+    /* Estados de sucesso e erro com contraste otimizado */
+    --success: 142 70% 30%; /* #16a34a - Verde escuro para contraste WCAG AA */
+    --success-foreground: 0 0% 100%; /* #ffffff - Branco puro */
+
+    --destructive: 0 80% 40%; /* #dc2626 - Vermelho escuro para contraste WCAG AA */
+    --destructive-foreground: 0 0% 100%; /* #ffffff - Branco puro */
+
+    /* Bordas e inputs com alta visibilidade */
+    --border: 0 0% 85% / 0.60; /* Bordas claras semi-transparentes */
+    --input: 0 0% 10% / 0.75; /* Inputs com fundo escuro para contraste */
+    --ring: 270 90% 50%; /* #9333ea - Roxo vibrante para focus */
+
+    /* Cores especiais para ícones com alto contraste */
+    --icon-heart: 0 80% 50%; /* #ef4444 - Vermelho vibrante mas legível */
+    --icon-cart: 142 70% 40%; /* #22c55e - Verde forte */
+    --icon-like: 220 85% 45%; /* #3b82f6 - Azul vibrante */
+    --icon-chat: 270 85% 55%; /* #a855f7 - Roxo vibrante */
+
+    /* Dourado premium com contraste melhorado */
+    --gold: 51 95% 45%; /* #f59e0b - Ouro escuro para melhor legibilidade */
+    --gold-foreground: 0 0% 100%; /* Branco para máximo contraste */
+
+    /* Sombras otimizadas */
+    --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.4); /* Sombra escura para definição */
+    --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.5); /* Sombra mais intensa no hover */
+    
+    /* Sidebar com fundo mais sólido */
+    --sidebar-background: 0 0% 10% / 0.85;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 270 90% 35%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 0 0% 15% / 0.80;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 85% / 0.40;
+    --sidebar-ring: 270 90% 50%;
+
+    /* Gradientes otimizados para contraste */
+    --gradient-primary: linear-gradient(135deg, hsl(270, 90%, 35%), hsl(270, 90%, 40%));
+    --gradient-secondary: linear-gradient(135deg, rgba(0,0,0,0.70), rgba(0,0,0,0.80));
+    --gradient-card: linear-gradient(135deg, rgba(0,0,0,0.80), rgba(0,0,0,0.85));
+    
+    /* Backdrop blur mantido para efeito glass */
+    --backdrop-blur: blur(16px);
+    --backdrop-blur-strong: blur(24px);
+
+    /* Transições suaves */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .home-palette.dark {
+    /* Fundo escuro com gradiente mais sutil */
+    --background: linear-gradient(135deg, hsl(270, 80%, 15%) 0%, hsl(220, 80%, 20%) 100%);
+    --foreground: 0 0% 95%; /* #f3f1ff - Branco roxo suave */
+
+    /* Cards com glass effect no modo escuro */
+    --card: rgba(15, 10, 30, 0.80); /* Glass effect escuro */
+    --card-foreground: 0 0% 95%; /* #f3f1ff - Branco roxo suave */
+
+    --popover: rgba(15, 10, 30, 0.90); /* Glass effect mais denso para popovers */
+    --popover-foreground: 0 0% 95%; /* #f3f1ff - Branco roxo suave */
+
+    /* Botão primário com glow no dark mode */
+    --primary: 270 100% 75%; /* #b776f7 - Roxo claro vibrante */
+    --primary-foreground: 270 50% 8%; /* #140a26 - Roxo muito escuro para contraste */
+    --primary-hover: 270 100% 80%; /* Roxo ainda mais claro no hover */
+
+    /* Botões secundários com glass effect escuro */
+    --secondary: rgba(255, 255, 255, 0.10); /* Glass effect bem sutil */
+    --secondary-foreground: 0 0% 95%; /* #f3f1ff - Branco roxo suave */
+    --secondary-hover: rgba(255, 255, 255, 0.20); /* Mais visível no hover */
+
+    /* Elementos muted no dark mode */
+    --muted: rgba(45, 27, 77, 0.60); /* Glass effect roxo escuro */
+    --muted-foreground: 250 50% 75%; /* #c4b3e0 - Roxo claro */
+
+    /* Accent azul-roxo claro */
+    --accent: 230 85% 75%; /* #8b92ff - Azul-roxo claro */
+    --accent-foreground: 250 50% 8%; /* #140a26 - Roxo muito escuro para contraste */
+
+    /* Estados de sucesso e erro no dark mode */
+    --success: 142 76% 55%; /* #10b981 - Verde claro */
+    --success-foreground: 250 50% 8%; /* #140a26 - Roxo muito escuro para contraste */
+
+    --destructive: 0 84% 70%; /* #f56565 - Vermelho claro */
+    --destructive-foreground: 0 0% 95%; /* #f3f1ff - Branco roxo suave */
+
+    /* Bordas e inputs com transparência no dark */
+    --border: rgba(255, 255, 255, 0.15); /* Bordas sutis */
+    --input: rgba(61, 41, 102, 0.60); /* Input com glass effect roxo escuro */
+    --ring: 270 100% 75%; /* #b776f7 - Roxo claro vibrante */
+
+    /* Cores especiais para ícones no dark mode */
+    --icon-heart: 0 100% 70%; /* #ff6b6b - Vermelho claro */
+    --icon-cart: 142 76% 55%; /* #10b981 - Verde claro */
+    --icon-like: 230 85% 75%; /* #8b92ff - Azul-roxo claro */
+    --icon-chat: 270 85% 80%; /* Roxo muito claro */
+
+    /* Dourado premium no dark mode */
+    --gold: 45 100% 70%; /* #ffdb4d - Dourado claro */
+    --gold-foreground: 250 50% 8%; /* #140a26 - Roxo muito escuro para contraste */
+
+    /* Sombras com transparência roxa no dark */
+    --shadow-glass: 0 8px 32px rgba(20, 10, 38, 0.8); /* Sombra roxa escura */
+    --shadow-hover: 0 12px 40px rgba(20, 10, 38, 0.9); /* Sombra mais intensa no hover */
+    
+    /* Sidebar com glass effect no dark */
+    --sidebar-background: rgba(20, 10, 38, 0.85);
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 270 100% 75%;
+    --sidebar-primary-foreground: 250 50% 8%;
+    --sidebar-accent: rgba(45, 27, 77, 0.60);
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: rgba(255, 255, 255, 0.15);
+    --sidebar-ring: 270 100% 75%;
+
+    /* Gradientes personalizados para dark mode */
+    --gradient-primary: linear-gradient(135deg, hsl(270, 100%, 75%), hsl(270, 100%, 80%));
+    --gradient-secondary: linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.20));
+    --gradient-card: linear-gradient(135deg, rgba(15,10,30,0.80), rgba(45,27,77,0.60));
+    
+    /* Backdrop blur para efeito glass no dark */
+    --backdrop-blur: blur(20px);
+    --backdrop-blur-strong: blur(28px);
   }
 }
 
@@ -102,4 +495,1426 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
   }
-}
+
+  @keyframes blink-red {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  @keyframes blink-circle {
+    0%, 100% { 
+      opacity: 1; 
+      background-color: hsl(0, 84%, 60%);
+    }
+    50% { 
+      opacity: 0.4; 
+      background-color: hsl(0, 84%, 45%);
+    }
+  }
+
+  .animate-blink-red {
+    animation: blink-red 1s ease-in-out infinite;
+  }
+
+  .animate-blink-circle {
+    animation: blink-circle 0.8s ease-in-out infinite;
+  }
+
+  /* Home Palette - Utility Classes e Glass Effects otimizados para contraste */
+  .home-palette {
+    /* Aplicar o gradiente de fundo otimizado */
+    background: linear-gradient(135deg, hsl(270, 85%, 50%) 0%, hsl(220, 85%, 55%) 100%);
+    min-height: 100vh;
+  }
+
+  .home-palette .glass-card {
+    @apply backdrop-blur-md border rounded-2xl shadow-lg;
+    background: rgba(0, 0, 0, 0.85);
+    border-color: rgba(255, 255, 255, 0.60);
+    color: white;
+  }
+
+  .home-palette .glass-popover {
+    @apply backdrop-blur-lg border rounded-xl shadow-xl;
+    background: rgba(0, 0, 0, 0.90);
+    border-color: rgba(255, 255, 255, 0.60);
+    color: white;
+  }
+
+  .home-palette .glass-button {
+    @apply backdrop-blur-sm border rounded-lg transition-all duration-300;
+    background: rgba(0, 0, 0, 0.80);
+    border-color: rgba(255, 255, 255, 0.60);
+    color: white;
+  }
+
+  .home-palette .glass-button:hover {
+    background: rgba(0, 0, 0, 0.85);
+    border-color: rgba(255, 255, 255, 0.70);
+  }
+
+  .home-palette .glass-input {
+    @apply backdrop-blur-sm border rounded-lg text-white;
+    background: rgba(0, 0, 0, 0.75);
+    border-color: rgba(255, 255, 255, 0.60);
+  }
+
+  .home-palette .glass-input::placeholder {
+    color: rgba(255, 255, 255, 0.70);
+  }
+
+  .home-palette .glass-sidebar {
+    @apply backdrop-blur-md border-r;
+    background: rgba(0, 0, 0, 0.85);
+    border-color: rgba(255, 255, 255, 0.40);
+  }
+
+  /* Melhorias específicas para ícones e botões na paleta home */
+  .home-palette .icon-high-contrast {
+    @apply text-white drop-shadow-md;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
+  }
+
+  .home-palette .button-high-contrast {
+    @apply bg-black/80 border-white/60 text-white;
+    backdrop-filter: blur(8px);
+  }
+
+  .home-palette .button-high-contrast:hover {
+    @apply bg-black/85 border-white/70;
+  }
+
+  .home-palette .dropdown-high-contrast {
+    @apply bg-black/90 border-white/50 text-white;
+    backdrop-filter: blur(16px);
+  }
+
+  /* Ícones pequenos do topo com máxima visibilidade */
+  .home-palette .top-icon {
+    @apply text-white;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9));
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  }
+
+  /* Botões de ação com cores mais fortes */
+  .home-palette .action-button-confirm {
+    @apply bg-green-600 hover:bg-green-700 text-white border-green-500;
+  }
+
+  .home-palette .action-button-primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white border-blue-500;
+  }
+
+  .home-palette .action-button-alert {
+    @apply bg-red-600 hover:bg-red-700 text-white border-red-500;
+  }
+
+  /* Gradientes especiais para botões */
+  .home-palette .gradient-primary {
+    background: linear-gradient(135deg, hsl(270, 100%, 65%), hsl(270, 100%, 70%));
+  }
+
+  .home-palette .gradient-secondary {
+    background: linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0.35));
+  }
+
+  .home-palette .gradient-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.25));
+  }
+
+  /* Sombras especiais */
+  .home-palette .shadow-glass {
+    box-shadow: 0 8px 32px rgba(139, 69, 19, 0.3);
+  }
+
+  .home-palette .shadow-glass-hover:hover {
+    box-shadow: 0 12px 40px rgba(139, 69, 19, 0.4);
+  }
+
+  /* Cores de ícones especiais */
+  .home-palette .icon-heart {
+    color: hsl(0, 100%, 65%);
+  }
+
+  .home-palette .icon-cart {
+    color: hsl(142, 76%, 50%);
+  }
+
+  .home-palette .icon-like {
+    color: hsl(220, 100%, 65%);
+  }
+
+  .home-palette .icon-chat {
+    color: hsl(270, 85%, 70%);
+  }
+
+  /* Animações suaves */
+  .home-palette .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .home-palette .transition-fast {
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Estados hover especiais */
+  .home-palette .hover-glass:hover {
+    @apply bg-white/30 backdrop-blur-lg;
+  }
+
+  .home-palette .hover-glow:hover {
+    filter: drop-shadow(0 0 20px rgba(155, 48, 255, 0.5));
+  }
+
+  /* E-commerce Palette - Luxo e Minimalista */
+  .ecommerce-palette {
+    --background: 0 0% 100%; /* #FFFFFF - Branco premium */
+    --foreground: 220 9% 22%; /* #374151 - Cinza escuro sofisticado */
+
+    --card: 0 0% 100%; /* #FFFFFF - Branco premium */
+    --card-foreground: 220 9% 22%; /* #374151 - Cinza escuro sofisticado */
+
+    --popover: 0 0% 100%; /* #FFFFFF - Branco premium */
+    --popover-foreground: 220 9% 22%; /* #374151 - Cinza escuro sofisticado */
+
+    --primary: 220 26% 18%; /* #1F2937 - Preto carvão, elegância */
+    --primary-foreground: 0 0% 100%; /* #FFFFFF - Branco puro para contraste */
+
+    --secondary: 31 96% 52%; /* #D97706 - Dourado, luxo */
+    --secondary-foreground: 0 0% 100%; /* #FFFFFF - Branco puro para contraste */
+
+    --muted: 220 13% 93%; /* #f8f9fa - Cinza muito claro */
+    --muted-foreground: 220 9% 46%; /* #6b7280 - Cinza médio */
+
+    --accent: 217 91% 60%; /* #2563EB - Azul compra/confiança */
+    --accent-foreground: 0 0% 100%; /* #FFFFFF - Branco puro para contraste */
+
+    --success: 142 76% 36%; /* #16a34a - Verde */
+    --success-foreground: 0 0% 100%; /* #FFFFFF - Branco puro para contraste */
+
+    --destructive: 0 84% 60%; /* #ef4444 - Vermelho */
+    --destructive-foreground: 0 0% 100%; /* #FFFFFF - Branco puro para contraste */
+
+    --border: 220 13% 91%; /* #e5e7eb - Cinza leve */
+    --input: 0 0% 100%; /* #FFFFFF - Branco premium */
+    --ring: 217 91% 60%; /* #2563EB - Azul compra/confiança */
+
+    --gold: 31 96% 52%; /* #D97706 - Dourado, luxo */
+    --gold-foreground: 0 0% 100%; /* #FFFFFF - Branco puro para contraste */
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 9% 22%;
+    --sidebar-primary: 220 26% 18%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 13% 93%;
+    --sidebar-accent-foreground: 220 9% 22%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217 91% 60%;
+  }
+
+  .ecommerce-palette.dark {
+    --background: 220 26% 18%; /* #1F2937 - Preto carvão */
+    --foreground: 0 0% 100%; /* #FFFFFF - Branco puro */
+
+    --card: 220 26% 18%; /* #1F2937 - Preto carvão */
+    --card-foreground: 0 0% 100%; /* #FFFFFF - Branco puro */
+
+    --popover: 220 26% 18%; /* #1F2937 - Preto carvão */
+    --popover-foreground: 0 0% 100%; /* #FFFFFF - Branco puro */
+
+    --primary: 0 0% 100%; /* #FFFFFF - Branco premium */
+    --primary-foreground: 220 26% 18%; /* #1F2937 - Preto carvão para contraste */
+
+    --secondary: 31 96% 60%; /* #e97706 - Dourado mais claro */
+    --secondary-foreground: 220 26% 18%; /* #1F2937 - Preto carvão para contraste */
+
+    --muted: 220 26% 25%; /* #2d3748 - Cinza escuro */
+    --muted-foreground: 220 13% 70%; /* #9ca3af - Cinza claro */
+
+    --accent: 217 91% 65%; /* #3b82f6 - Azul mais claro */
+    --accent-foreground: 220 26% 18%; /* #1F2937 - Preto carvão para contraste */
+
+    --success: 142 76% 45%; /* #22c55e - Verde mais claro */
+    --success-foreground: 220 26% 18%; /* #1F2937 - Preto carvão para contraste */
+
+    --destructive: 0 84% 60%; /* #ef4444 - Vermelho */
+    --destructive-foreground: 0 0% 100%; /* #FFFFFF - Branco puro */
+
+    --border: 220 26% 30%; /* #374151 - Cinza escuro */
+    --input: 220 26% 25%; /* #2d3748 - Cinza escuro */
+    --ring: 217 91% 65%; /* #3b82f6 - Azul mais claro */
+
+    --gold: 31 96% 60%; /* #e97706 - Dourado mais claro */
+    --gold-foreground: 220 26% 18%; /* #1F2937 - Preto carvão para contraste */
+
+    --sidebar-background: 220 26% 18%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 220 26% 18%;
+    --sidebar-accent: 220 26% 25%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 220 26% 30%;
+    --sidebar-ring: 217 91% 65%;
+  }
+
+  /* Paleta Fire (Elegante, Futurista e Sensual) */
+  .fire-palette {
+    --background: 0 0% 5%; /* #0D0D0D - Preto elegante vibe cinema */
+    --foreground: 0 0% 96%; /* #F5F5F5 - Branco suave */
+    --card: 0 0% 17%; /* #2C2C2C - Cinza grafite com transparência */
+    --card-foreground: 0 0% 96%;
+    --popover: 0 0% 17%;
+    --popover-foreground: 0 0% 96%;
+    --primary: 221 100% 62%; /* #2979FF - Azul primário */
+    --primary-foreground: 0 0% 96%;
+    --secondary: 324 92% 47%; /* #E5097F - Rosa pink neon sensual */
+    --secondary-foreground: 0 0% 96%;
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 80%; /* #CCCCCC - Texto secundário */
+    --accent: 344 100% 57%; /* #FF1744 - Vermelho vibrante para ações */
+    --accent-foreground: 0 0% 96%;
+    --destructive: 14 100% 50%; /* #FF3D00 - Vermelho alerta */
+    --destructive-foreground: 0 0% 96%;
+    --border: 0 0% 96% / 0.3; /* Borda suave transparente */
+    --input: 0 0% 17%;
+    --ring: 324 92% 47%;
+    --radius: 1rem;
+    
+    /* Cores específicas da paleta Fire */
+    --fire-confirm: 120 61% 50%; /* #32CD32 - Verde confirmação */
+    --fire-glass: 0 0% 17% / 0.85; /* Efeito glass/frosted */
+    
+    --sidebar-background: 0 0% 5%;
+    --sidebar-foreground: 0 0% 96%;
+    --sidebar-primary: 324 92% 47%;
+    --sidebar-primary-foreground: 0 0% 96%;
+    --sidebar-accent: 0 0% 17%;
+    --sidebar-accent-foreground: 0 0% 96%;
+    --sidebar-border: 0 0% 96% / 0.3;
+    --sidebar-ring: 324 92% 47%;
+  }
+
+  .fire-palette.dark {
+    --background: 0 0% 3%; /* Ainda mais escuro no dark mode */
+    --foreground: 0 0% 98%;
+    --card: 0 0% 15%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 15%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 221 100% 65%;
+    --primary-foreground: 0 0% 3%;
+    --secondary: 324 92% 50%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 18%;
+    --muted-foreground: 0 0% 75%;
+    --accent: 344 100% 60%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 14 100% 55%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 98% / 0.2;
+    --input: 0 0% 15%;
+    --ring: 324 92% 50%;
+    
+    --sidebar-background: 0 0% 3%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 324 92% 50%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 0 0% 15%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 0 0% 98% / 0.2;
+    --sidebar-ring: 324 92% 50%;
+  }
+
+  /* ======== 15 GRADIENTES EXPERIMENTAIS ======== */
+  
+  /* 1. Gradiente Pôr do Sol */
+  .gradient-sunset {
+    --background: linear-gradient(135deg, #ff6b35 0%, #ff8e53 50%, #ff9a56 100%);
+    --foreground: 0 0% 100%;
+    --card: rgba(255, 255, 255, 0.1);
+    --card-foreground: 0 0% 100%;
+    --popover: rgba(0, 0, 0, 0.8);
+    --popover-foreground: 0 0% 100%;
+    --primary: 14 100% 45%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: rgba(255, 255, 255, 0.2);
+    --secondary-foreground: 0 0% 100%;
+    --border: rgba(255, 255, 255, 0.3);
+  }
+  
+  .gradient-sunset-2 {
+    --background: linear-gradient(135deg, #ff5722 0%, #ff7043 50%, #ff8a65 100%);
+  }
+  
+  .gradient-sunset-3 {
+    --background: linear-gradient(135deg, #e65100 0%, #ff6f00 50%, #ff8f00 100%);
+  }
+
+  /* 2. Gradiente Oceano */
+  .gradient-ocean {
+    --background: linear-gradient(135deg, #0077be 0%, #00b4db 50%, #0083b0 100%);
+    --foreground: 0 0% 100%;
+    --card: rgba(255, 255, 255, 0.1);
+    --card-foreground: 0 0% 100%;
+    --popover: rgba(0, 0, 0, 0.8);
+    --popover-foreground: 0 0% 100%;
+    --primary: 200 100% 40%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: rgba(255, 255, 255, 0.2);
+    --secondary-foreground: 0 0% 100%;
+    --border: rgba(255, 255, 255, 0.3);
+  }
+  
+  .gradient-ocean-2 {
+    --background: linear-gradient(135deg, #006ba6 0%, #0496c7 50%, #5fb3d4 100%);
+  }
+  
+  .gradient-ocean-3 {
+    --background: linear-gradient(135deg, #003d5b 0%, #00587a 50%, #007ea7 100%);
+  }
+
+  /* 3. Gradiente Floresta */
+  .gradient-forest {
+    --background: linear-gradient(135deg, #2d5016 0%, #3a7233 50%, #5bb85b 100%);
+    --foreground: 0 0% 100%;
+    --card: rgba(255, 255, 255, 0.1);
+    --card-foreground: 0 0% 100%;
+    --popover: rgba(0, 0, 0, 0.8);
+    --popover-foreground: 0 0% 100%;
+    --primary: 120 60% 35%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: rgba(255, 255, 255, 0.2);
+    --secondary-foreground: 0 0% 100%;
+    --border: rgba(255, 255, 255, 0.3);
+  }
+  
+  .gradient-forest-2 {
+    --background: linear-gradient(135deg, #1b4332 0%, #2d5a27 50%, #52b788 100%);
+  }
+  
+  .gradient-forest-3 {
+    --background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 50%, #2f4858 100%);
+  }
+
+  /* 4. Gradiente Cósmico */
+  .gradient-cosmic {
+    --background: linear-gradient(135deg, #2b1b69 0%, #512da8 50%, #7b1fa2 100%);
+    --foreground: 0 0% 100%;
+    --card: rgba(255, 255, 255, 0.1);
+    --card-foreground: 0 0% 100%;
+    --popover: rgba(0, 0, 0, 0.8);
+    --popover-foreground: 0 0% 100%;
+    --primary: 270 70% 45%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: rgba(255, 255, 255, 0.2);
+    --secondary-foreground: 0 0% 100%;
+    --border: rgba(255, 255, 255, 0.3);
+  }
+  
+  .gradient-cosmic-2 {
+    --background: linear-gradient(135deg, #1a237e 0%, #3f51b5 50%, #673ab7 100%);
+  }
+  
+  .gradient-cosmic-3 {
+    --background: linear-gradient(135deg, #0d47a1 0%, #1976d2 50%, #2196f3 100%);
+  }
+
+  /* 5. Gradiente Aurora */
+  .gradient-aurora {
+    --background: linear-gradient(135deg, #00796b 0%, #26c6da 50%, #4fc3f7 100%);
+    --foreground: 0 0% 100%;
+    --card: rgba(255, 255, 255, 0.1);
+    --card-foreground: 0 0% 100%;
+    --popover: rgba(0, 0, 0, 0.8);
+    --popover-foreground: 0 0% 100%;
+    --primary: 180 70% 40%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: rgba(255, 255, 255, 0.2);
+    --secondary-foreground: 0 0% 100%;
+    --border: rgba(255, 255, 255, 0.3);
+  }
+  
+  .gradient-aurora-2 {
+    --background: linear-gradient(135deg, #004d40 0%, #00897b 50%, #26a69a 100%);
+  }
+  
+  .gradient-aurora-3 {
+    --background: linear-gradient(135deg, #006064 0%, #0097a7 50%, #00bcd4 100%);
+  }
+
+  /* 6. Gradiente Vulcão */
+  .gradient-volcano {
+    --background: linear-gradient(135deg, #bf360c 0%, #ff5722 50%, #ff7043 100%);
+    --foreground: 0 0% 100%;
+    --card: rgba(255, 255, 255, 0.1);
+    --card-foreground: 0 0% 100%;
+    --popover: rgba(0, 0, 0, 0.8);
+    --popover-foreground: 0 0% 100%;
+    --primary: 15 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: rgba(255, 255, 255, 0.2);
+    --secondary-foreground: 0 0% 100%;
+    --border: rgba(255, 255, 255, 0.3);
+  }
+  
+  .gradient-volcano-2 {
+    --background: linear-gradient(135deg, #d84315 0%, #ff6f00 50%, #ff8f00 100%);
+  }
+  
+  .gradient-volcano-3 {
+    --background: linear-gradient(135deg, #e65100 0%, #ef6c00 50%, #f57c00 100%);
+  }
+
+  /* 7. Gradiente Cristal */
+  .gradient-crystal {
+    --background: linear-gradient(135deg, #b3e5fc 0%, #81d4fa 50%, #4fc3f7 100%);
+    --foreground: 0 0% 20%;
+    --card: rgba(255, 255, 255, 0.3);
+    --card-foreground: 0 0% 20%;
+    --popover: rgba(255, 255, 255, 0.9);
+    --popover-foreground: 0 0% 20%;
+    --primary: 200 80% 40%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: rgba(255, 255, 255, 0.5);
+    --secondary-foreground: 0 0% 20%;
+    --border: rgba(255, 255, 255, 0.6);
+  }
+  
+  .gradient-crystal-2 {
+    --background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 50%, #81d4fa 100%);
+  }
+  
+  .gradient-crystal-3 {
+    --background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 50%, #ce93d8 100%);
+  }
+
+  /* 8. Gradiente Galáxia */
+  .gradient-galaxy {
+    --background: linear-gradient(135deg, #1a0033 0%, #4a148c 50%, #7b1fa2 100%);
+    --foreground: 0 0% 100%;
+    --card: rgba(255, 255, 255, 0.1);
+    --card-foreground: 0 0% 100%;
+    --popover: rgba(0, 0, 0, 0.8);
+    --popover-foreground: 0 0% 100%;
+    --primary: 290 80% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: rgba(255, 255, 255, 0.2);
+    --secondary-foreground: 0 0% 100%;
+    --border: rgba(255, 255, 255, 0.3);
+  }
+  
+  .gradient-galaxy-2 {
+    --background: linear-gradient(135deg, #311b92 0%, #512da8 50%, #673ab7 100%);
+  }
+  
+  .gradient-galaxy-3 {
+    --background: linear-gradient(135deg, #4a148c 0%, #6a1b9a 50%, #8e24aa 100%);
+  }
+
+  /* 9. Gradiente Neon */
+  .gradient-neon {
+    --background: linear-gradient(135deg, #e91e63 0%, #ff5722 50%, #ff9800 100%);
+    --foreground: 0 0% 100%;
+    --card: rgba(255, 255, 255, 0.1);
+    --card-foreground: 0 0% 100%;
+    --popover: rgba(0, 0, 0, 0.8);
+    --popover-foreground: 0 0% 100%;
+    --primary: 340 80% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: rgba(255, 255, 255, 0.2);
+    --secondary-foreground: 0 0% 100%;
+    --border: rgba(255, 255, 255, 0.3);
+  }
+  
+  .gradient-neon-2 {
+    --background: linear-gradient(135deg, #c2185b 0%, #e53935 50%, #fb8c00 100%);
+  }
+  
+  .gradient-neon-3 {
+    --background: linear-gradient(135deg, #ad1457 0%, #d32f2f 50%, #f57c00 100%);
+  }
+
+  /* 10. Gradiente Real */
+  .gradient-royal {
+    --background: linear-gradient(135deg, #1a237e 0%, #303f9f 50%, #ffd700 100%);
+    --foreground: 0 0% 100%;
+    --card: rgba(255, 255, 255, 0.1);
+    --card-foreground: 0 0% 100%;
+    --popover: rgba(0, 0, 0, 0.8);
+    --popover-foreground: 0 0% 100%;
+    --primary: 45 100% 50%;
+    --primary-foreground: 0 0% 20%;
+    --secondary: rgba(255, 255, 255, 0.2);
+    --secondary-foreground: 0 0% 100%;
+    --border: rgba(255, 255, 255, 0.3);
+  }
+  
+  .gradient-royal-2 {
+    --background: linear-gradient(135deg, #283593 0%, #3f51b5 50%, #ffeb3b 100%);
+  }
+  
+  .gradient-royal-3 {
+    --background: linear-gradient(135deg, #3f51b5 0%, #5c6bc0 50%, #fff176 100%);
+  }
+
+  /* 11. Gradiente Tropical */
+  .gradient-tropical {
+    --background: linear-gradient(135deg, #2e7d32 0%, #66bb6a 50%, #ffeb3b 100%);
+    --foreground: 0 0% 100%;
+    --card: rgba(255, 255, 255, 0.1);
+    --card-foreground: 0 0% 100%;
+    --popover: rgba(0, 0, 0, 0.8);
+    --popover-foreground: 0 0% 100%;
+    --primary: 60 100% 50%;
+    --primary-foreground: 0 0% 20%;
+    --secondary: rgba(255, 255, 255, 0.2);
+    --secondary-foreground: 0 0% 100%;
+    --border: rgba(255, 255, 255, 0.3);
+  }
+  
+  .gradient-tropical-2 {
+    --background: linear-gradient(135deg, #388e3c 0%, #8bc34a 50%, #cddc39 100%);
+  }
+  
+  .gradient-tropical-3 {
+    --background: linear-gradient(135deg, #43a047 0%, #7cb342 50%, #9e9d24 100%);
+  }
+
+  /* 12. Gradiente Ártico */
+  .gradient-arctic {
+    --background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #90caf9 100%);
+    --foreground: 0 0% 20%;
+    --card: rgba(255, 255, 255, 0.3);
+    --card-foreground: 0 0% 20%;
+    --popover: rgba(255, 255, 255, 0.9);
+    --popover-foreground: 0 0% 20%;
+    --primary: 210 80% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: rgba(255, 255, 255, 0.5);
+    --secondary-foreground: 0 0% 20%;
+    --border: rgba(255, 255, 255, 0.6);
+  }
+  
+  .gradient-arctic-2 {
+    --background: linear-gradient(135deg, #f1f8e9 0%, #c5e1a5 50%, #aed581 100%);
+  }
+  
+  .gradient-arctic-3 {
+    --background: linear-gradient(135deg, #fff3e0 0%, #ffcc80 50%, #ffb74d 100%);
+  }
+
+  /* 13. Gradiente Deserto */
+  .gradient-desert {
+    --background: linear-gradient(135deg, #ff8f00 0%, #ffb300 50%, #ffc107 100%);
+    --foreground: 0 0% 20%;
+    --card: rgba(255, 255, 255, 0.2);
+    --card-foreground: 0 0% 20%;
+    --popover: rgba(255, 255, 255, 0.9);
+    --popover-foreground: 0 0% 20%;
+    --primary: 45 100% 40%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: rgba(255, 255, 255, 0.4);
+    --secondary-foreground: 0 0% 20%;
+    --border: rgba(255, 255, 255, 0.5);
+  }
+  
+  .gradient-desert-2 {
+    --background: linear-gradient(135deg, #f57c00 0%, #ff9800 50%, #ffb74d 100%);
+  }
+  
+  .gradient-desert-3 {
+    --background: linear-gradient(135deg, #ef6c00 0%, #ff8f00 50%, #ffb300 100%);
+  }
+
+  /* 14. Gradiente Tempestade */
+  .gradient-storm {
+    --background: linear-gradient(135deg, #263238 0%, #455a64 50%, #607d8b 100%);
+    --foreground: 0 0% 100%;
+    --card: rgba(255, 255, 255, 0.1);
+    --card-foreground: 0 0% 100%;
+    --popover: rgba(0, 0, 0, 0.8);
+    --popover-foreground: 0 0% 100%;
+    --primary: 200 30% 40%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: rgba(255, 255, 255, 0.2);
+    --secondary-foreground: 0 0% 100%;
+    --border: rgba(255, 255, 255, 0.3);
+  }
+  
+  .gradient-storm-2 {
+    --background: linear-gradient(135deg, #37474f 0%, #546e7a 50%, #78909c 100%);
+  }
+  
+  .gradient-storm-3 {
+    --background: linear-gradient(135deg, #455a64 0%, #607d8b 50%, #90a4ae 100%);
+  }
+
+  /* 15. Gradiente Arco-íris */
+  .gradient-rainbow {
+    --background: linear-gradient(135deg, #f44336 0%, #ff9800 16%, #ffeb3b 33%, #4caf50 50%, #2196f3 66%, #9c27b0 83%, #e91e63 100%);
+    --foreground: 0 0% 100%;
+    --card: rgba(255, 255, 255, 0.1);
+    --card-foreground: 0 0% 100%;
+    --popover: rgba(0, 0, 0, 0.8);
+    --popover-foreground: 0 0% 100%;
+    --primary: 300 70% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: rgba(255, 255, 255, 0.2);
+    --secondary-foreground: 0 0% 100%;
+    --border: rgba(255, 255, 255, 0.3);
+  }
+  
+  .gradient-rainbow-2 {
+    --background: linear-gradient(135deg, #ff5722 0%, #ff9800 20%, #ffc107 40%, #8bc34a 60%, #03a9f4 80%, #9c27b0 100%);
+  }
+  
+  .gradient-rainbow-3 {
+    --background: linear-gradient(135deg, #e53935 0%, #fb8c00 25%, #fdd835 50%, #43a047 75%, #1e88e5 100%);
+  }
+  }
+
+  /* ======== 20 PALETAS DE CORES SIMPLES ======== */
+  
+  /* 1. Rosa Neon */
+  .color-neonPink {
+    --background: 300 100% 15%; /* #800040 - Rosa escuro */
+    --foreground: 0 0% 100%; /* #ffffff - Branco */
+    --card: 300 50% 25%; /* Versão mais clara para cards */
+    --card-foreground: 0 0% 100%;
+    --primary: 300 100% 50%; /* #ff0080 - Rosa neon vibrante */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 300 30% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --border: 300 50% 40%;
+  }
+
+  /* 2. Azul Elétrico */
+  .color-electricBlue {
+    --background: 210 100% 15%; /* #003366 - Azul escuro */
+    --foreground: 0 0% 100%;
+    --card: 210 50% 25%;
+    --card-foreground: 0 0% 100%;
+    --primary: 210 100% 50%; /* #0080ff - Azul elétrico */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 30% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --border: 210 50% 40%;
+  }
+
+  /* 3. Verde Vibrante */
+  .color-vibrantGreen {
+    --background: 120 100% 15%; /* #004000 - Verde escuro */
+    --foreground: 0 0% 100%;
+    --card: 120 50% 25%;
+    --card-foreground: 0 0% 100%;
+    --primary: 120 100% 50%; /* #00ff00 - Verde vibrante */
+    --primary-foreground: 0 0% 0%;
+    --secondary: 120 30% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --border: 120 50% 40%;
+  }
+
+  /* 4. Amarelo Dourado */
+  .color-goldenYellow {
+    --background: 45 100% 15%; /* #664400 - Amarelo escuro */
+    --foreground: 0 0% 100%;
+    --card: 45 50% 25%;
+    --card-foreground: 0 0% 100%;
+    --primary: 45 100% 50%; /* #ffaa00 - Amarelo dourado */
+    --primary-foreground: 0 0% 0%;
+    --secondary: 45 30% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --border: 45 50% 40%;
+  }
+
+  /* 5. Roxo Profundo */
+  .color-deepPurple {
+    --background: 270 100% 15%; /* #400080 - Roxo escuro */
+    --foreground: 0 0% 100%;
+    --card: 270 50% 25%;
+    --card-foreground: 0 0% 100%;
+    --primary: 270 100% 50%; /* #8000ff - Roxo profundo */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 270 30% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --border: 270 50% 40%;
+  }
+
+  /* 6. Vermelho Carmesim */
+  .color-crimsonRed {
+    --background: 0 100% 15%; /* #660000 - Vermelho escuro */
+    --foreground: 0 0% 100%;
+    --card: 0 50% 25%;
+    --card-foreground: 0 0% 100%;
+    --primary: 0 100% 50%; /* #ff0000 - Vermelho carmesim */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 30% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --border: 0 50% 40%;
+  }
+
+  /* 7. Azul Oceano */
+  .color-oceanTeal {
+    --background: 180 100% 15%; /* #004040 - Azul oceano escuro */
+    --foreground: 0 0% 100%;
+    --card: 180 50% 25%;
+    --card-foreground: 0 0% 100%;
+    --primary: 180 100% 50%; /* #00ffff - Azul oceano */
+    --primary-foreground: 0 0% 0%;
+    --secondary: 180 30% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --border: 180 50% 40%;
+  }
+
+  /* 8. Laranja Pôr do Sol */
+  .color-sunsetOrange {
+    --background: 30 100% 15%; /* #664400 - Laranja escuro */
+    --foreground: 0 0% 100%;
+    --card: 30 50% 25%;
+    --card-foreground: 0 0% 100%;
+    --primary: 30 100% 50%; /* #ff8800 - Laranja pôr do sol */
+    --primary-foreground: 0 0% 0%;
+    --secondary: 30 30% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --border: 30 50% 40%;
+  }
+
+  /* 9. Lavanda Sonho */
+  .color-lavenderDream {
+    --background: 285 100% 15%; /* #4d0066 - Lavanda escuro */
+    --foreground: 0 0% 100%;
+    --card: 285 50% 25%;
+    --card-foreground: 0 0% 100%;
+    --primary: 285 100% 60%; /* #cc66ff - Lavanda sonho */
+    --primary-foreground: 0 0% 0%;
+    --secondary: 285 30% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --border: 285 50% 40%;
+  }
+
+  /* 10. Névoa Esmeralda */
+  .color-emeraldMist {
+    --background: 150 100% 15%; /* #004d26 - Esmeralda escuro */
+    --foreground: 0 0% 100%;
+    --card: 150 50% 25%;
+    --card-foreground: 0 0% 100%;
+    --primary: 150 100% 50%; /* #00ff80 - Névoa esmeralda */
+    --primary-foreground: 0 0% 0%;
+    --secondary: 150 30% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --border: 150 50% 40%;
+  }
+
+  /* 11. Pétala de Rosa */
+  .color-rosePetal {
+    --background: 330 100% 15%; /* #660033 - Rosa pétala escuro */
+    --foreground: 0 0% 100%;
+    --card: 330 50% 25%;
+    --card-foreground: 0 0% 100%;
+    --primary: 330 100% 60%; /* #ff6699 - Pétala de rosa */
+    --primary-foreground: 0 0% 0%;
+    --secondary: 330 30% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --border: 330 50% 40%;
+  }
+
+  /* 12. Azul Meia-Noite */
+  .color-midnightBlue {
+    --background: 240 100% 10%; /* #000033 - Azul meia-noite muito escuro */
+    --foreground: 0 0% 100%;
+    --card: 240 50% 20%;
+    --card-foreground: 0 0% 100%;
+    --primary: 240 100% 40%; /* #0033cc - Azul meia-noite */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 30% 15%;
+    --secondary-foreground: 0 0% 100%;
+    --border: 240 50% 30%;
+  }
+
+  /* 13. Verde Floresta */
+  .color-forestGreen {
+    --background: 135 100% 10%; /* #001a00 - Verde floresta escuro */
+    --foreground: 0 0% 100%;
+    --card: 135 50% 20%;
+    --card-foreground: 0 0% 100%;
+    --primary: 135 100% 40%; /* #00cc44 - Verde floresta */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 135 30% 15%;
+    --secondary-foreground: 0 0% 100%;
+    --border: 135 50% 30%;
+  }
+
+  /* 14. Coral Recife */
+  .color-coralReef {
+    --background: 15 100% 15%; /* #664000 - Coral escuro */
+    --foreground: 0 0% 100%;
+    --card: 15 50% 25%;
+    --card-foreground: 0 0% 100%;
+    --primary: 15 100% 60%; /* #ff9966 - Coral recife */
+    --primary-foreground: 0 0% 0%;
+    --secondary: 15 30% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --border: 15 50% 40%;
+  }
+
+  /* 15. Brilho Ametista */
+  .color-amethystGlow {
+    --background: 255 100% 15%; /* #330066 - Ametista escuro */
+    --foreground: 0 0% 100%;
+    --card: 255 50% 25%;
+    --card-foreground: 0 0% 100%;
+    --primary: 255 100% 60%; /* #9966ff - Brilho ametista */
+    --primary-foreground: 0 0% 0%;
+    --secondary: 255 30% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --border: 255 50% 40%;
+  }
+
+  /* 16. Bronze Cobre */
+  .color-copperBronze {
+    --background: 25 100% 15%; /* #663300 - Bronze escuro */
+    --foreground: 0 0% 100%;
+    --card: 25 50% 25%;
+    --card-foreground: 0 0% 100%;
+    --primary: 25 100% 50%; /* #ff6600 - Bronze cobre */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 25 30% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --border: 25 50% 40%;
+  }
+
+  /* 17. Azul Céu */
+  .color-skyBlue {
+    --background: 195 100% 15%; /* #003d66 - Azul céu escuro */
+    --foreground: 0 0% 100%;
+    --card: 195 50% 25%;
+    --card-foreground: 0 0% 100%;
+    --primary: 195 100% 60%; /* #66ccff - Azul céu */
+    --primary-foreground: 0 0% 0%;
+    --secondary: 195 30% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --border: 195 50% 40%;
+  }
+
+  /* 18. Verde Menta */
+  .color-mintGreen {
+    --background: 165 100% 15%; /* #004d33 - Verde menta escuro */
+    --foreground: 0 0% 100%;
+    --card: 165 50% 25%;
+    --card-foreground: 0 0% 100%;
+    --primary: 165 100% 60%; /* #66ffcc - Verde menta */
+    --primary-foreground: 0 0% 0%;
+    --secondary: 165 30% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --border: 165 50% 40%;
+  }
+
+  /* 19. Estrela Rubi */
+  .color-rubyStar {
+    --background: 345 100% 15%; /* #660026 - Rubi escuro */
+    --foreground: 0 0% 100%;
+    --card: 345 50% 25%;
+    --card-foreground: 0 0% 100%;
+    --primary: 345 100% 60%; /* #ff6699 - Estrela rubi */
+    --primary-foreground: 0 0% 0%;
+    --secondary: 345 30% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --border: 345 50% 40%;
+  }
+
+  /* 20. Lua Prateada */
+  .color-silverMoon {
+    --background: 220 20% 15%; /* #262633 - Prata escuro */
+    --foreground: 0 0% 100%;
+    --card: 220 20% 25%;
+    --card-foreground: 0 0% 100%;
+    --primary: 220 20% 70%; /* #b3b3c6 - Lua prateada */
+    --primary-foreground: 0 0% 0%;
+    --secondary: 220 20% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --border: 220 20% 50%;
+  }
+
+  /* ======== 20 GRADIENTES SUAVES (BRANCO PARA CORES) ======== */
+  
+  /* 1. Branco > Azul Suave */
+  .light-gradient-whiteBlue {
+    --background: linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(220, 60%, 85%) 100%);
+  }
+  .light-gradient-whiteBlue-2 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 95%) 0%, hsl(220, 70%, 80%) 100%);
+  }
+  .light-gradient-whiteBlue-3 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 92%) 0%, hsl(220, 80%, 75%) 100%);
+  }
+
+  /* 2. Branco > Rosa Suave */
+  .light-gradient-whitePink {
+    --background: linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(340, 60%, 85%) 100%);
+  }
+  .light-gradient-whitePink-2 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 95%) 0%, hsl(340, 70%, 80%) 100%);
+  }
+  .light-gradient-whitePink-3 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 92%) 0%, hsl(340, 80%, 75%) 100%);
+  }
+
+  /* 3. Branco > Verde Suave */
+  .light-gradient-whiteGreen {
+    --background: linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(120, 60%, 85%) 100%);
+  }
+  .light-gradient-whiteGreen-2 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 95%) 0%, hsl(120, 70%, 80%) 100%);
+  }
+  .light-gradient-whiteGreen-3 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 92%) 0%, hsl(120, 80%, 75%) 100%);
+  }
+
+  /* 4. Branco > Amarelo Suave */
+  .light-gradient-whiteYellow {
+    --background: linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(50, 60%, 85%) 100%);
+  }
+  .light-gradient-whiteYellow-2 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 95%) 0%, hsl(50, 70%, 80%) 100%);
+  }
+  .light-gradient-whiteYellow-3 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 92%) 0%, hsl(50, 80%, 75%) 100%);
+  }
+
+  /* 5. Branco > Roxo Suave */
+  .light-gradient-whitePurple {
+    --background: linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(270, 60%, 85%) 100%);
+  }
+  .light-gradient-whitePurple-2 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 95%) 0%, hsl(270, 70%, 80%) 100%);
+  }
+  .light-gradient-whitePurple-3 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 92%) 0%, hsl(270, 80%, 75%) 100%);
+  }
+
+  /* 6. Branco > Coral Suave */
+  .light-gradient-whiteCoral {
+    --background: linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(15, 60%, 85%) 100%);
+  }
+  .light-gradient-whiteCoral-2 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 95%) 0%, hsl(15, 70%, 80%) 100%);
+  }
+  .light-gradient-whiteCoral-3 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 92%) 0%, hsl(15, 80%, 75%) 100%);
+  }
+
+  /* 7. Branco > Verde-Água Suave */
+  .light-gradient-whiteTeal {
+    --background: linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(180, 60%, 85%) 100%);
+  }
+  .light-gradient-whiteTeal-2 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 95%) 0%, hsl(180, 70%, 80%) 100%);
+  }
+  .light-gradient-whiteTeal-3 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 92%) 0%, hsl(180, 80%, 75%) 100%);
+  }
+
+  /* 8. Branco > Lavanda Suave */
+  .light-gradient-whiteLavender {
+    --background: linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(285, 50%, 88%) 100%);
+  }
+  .light-gradient-whiteLavender-2 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 95%) 0%, hsl(285, 60%, 83%) 100%);
+  }
+  .light-gradient-whiteLavender-3 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 92%) 0%, hsl(285, 70%, 78%) 100%);
+  }
+
+  /* 9. Branco > Menta Suave */
+  .light-gradient-whiteMint {
+    --background: linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(150, 50%, 88%) 100%);
+  }
+  .light-gradient-whiteMint-2 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 95%) 0%, hsl(150, 60%, 83%) 100%);
+  }
+  .light-gradient-whiteMint-3 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 92%) 0%, hsl(150, 70%, 78%) 100%);
+  }
+
+  /* 10. Branco > Rosa Pétala */
+  .light-gradient-whiteRose {
+    --background: linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(330, 50%, 88%) 100%);
+  }
+  .light-gradient-whiteRose-2 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 95%) 0%, hsl(330, 60%, 83%) 100%);
+  }
+  .light-gradient-whiteRose-3 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 92%) 0%, hsl(330, 70%, 78%) 100%);
+  }
+
+  /* 11. Branco > Pêssego Suave */
+  .light-gradient-whitePeach {
+    --background: linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(30, 50%, 88%) 100%);
+  }
+  .light-gradient-whitePeach-2 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 95%) 0%, hsl(30, 60%, 83%) 100%);
+  }
+  .light-gradient-whitePeach-3 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 92%) 0%, hsl(30, 70%, 78%) 100%);
+  }
+
+  /* 12. Branco > Azul Céu */
+  .light-gradient-whiteSky {
+    --background: linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(195, 50%, 88%) 100%);
+  }
+  .light-gradient-whiteSky-2 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 95%) 0%, hsl(195, 60%, 83%) 100%);
+  }
+  .light-gradient-whiteSky-3 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 92%) 0%, hsl(195, 70%, 78%) 100%);
+  }
+
+  /* 13. Branco > Âmbar Suave */
+  .light-gradient-whiteAmber {
+    --background: linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(45, 50%, 88%) 100%);
+  }
+  .light-gradient-whiteAmber-2 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 95%) 0%, hsl(45, 60%, 83%) 100%);
+  }
+  .light-gradient-whiteAmber-3 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 92%) 0%, hsl(45, 70%, 78%) 100%);
+  }
+
+  /* 14. Branco > Esmeralda Suave */
+  .light-gradient-whiteEmerald {
+    --background: linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(140, 50%, 88%) 100%);
+  }
+  .light-gradient-whiteEmerald-2 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 95%) 0%, hsl(140, 60%, 83%) 100%);
+  }
+  .light-gradient-whiteEmerald-3 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 92%) 0%, hsl(140, 70%, 78%) 100%);
+  }
+
+  /* 15. Branco > Lilás Suave */
+  .light-gradient-whiteLilac {
+    --background: linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(255, 50%, 88%) 100%);
+  }
+  .light-gradient-whiteLilac-2 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 95%) 0%, hsl(255, 60%, 83%) 100%);
+  }
+  .light-gradient-whiteLilac-3 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 92%) 0%, hsl(255, 70%, 78%) 100%);
+  }
+
+  /* 16. Branco > Água Cristalina */
+  .light-gradient-whiteAqua {
+    --background: linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(185, 50%, 88%) 100%);
+  }
+  .light-gradient-whiteAqua-2 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 95%) 0%, hsl(185, 60%, 83%) 100%);
+  }
+  .light-gradient-whiteAqua-3 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 92%) 0%, hsl(185, 70%, 78%) 100%);
+  }
+
+  /* 17. Branco > Creme Suave */
+  .light-gradient-whiteCream {
+    --background: linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(55, 40%, 92%) 100%);
+  }
+  .light-gradient-whiteCream-2 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 95%) 0%, hsl(55, 50%, 88%) 100%);
+  }
+  .light-gradient-whiteCream-3 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 92%) 0%, hsl(55, 60%, 84%) 100%);
+  }
+
+  /* 18. Branco > Blush Suave */
+  .light-gradient-whiteBlush {
+    --background: linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(350, 40%, 92%) 100%);
+  }
+  .light-gradient-whiteBlush-2 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 95%) 0%, hsl(350, 50%, 88%) 100%);
+  }
+  .light-gradient-whiteBlush-3 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 92%) 0%, hsl(350, 60%, 84%) 100%);
+  }
+
+  /* 19. Branco > Gelo Suave */
+  .light-gradient-whiteFrost {
+    --background: linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(200, 40%, 92%) 100%);
+  }
+  .light-gradient-whiteFrost-2 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 95%) 0%, hsl(200, 50%, 88%) 100%);
+  }
+  .light-gradient-whiteFrost-3 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 92%) 0%, hsl(200, 60%, 84%) 100%);
+  }
+
+  /* 20. Branco > Pérola Suave */
+  .light-gradient-whitePearl {
+    --background: linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(210, 30%, 90%) 100%);
+  }
+  .light-gradient-whitePearl-2 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 95%) 0%, hsl(210, 40%, 86%) 100%);
+  }
+  .light-gradient-whitePearl-3 {
+    --background: linear-gradient(135deg, hsl(0, 0%, 92%) 0%, hsl(210, 50%, 82%) 100%);
+  }
+
+  /* ======== 20 CORES SUAVES ======== */
+  
+  /* 1. Azul Suave */
+  .color-softBlue {
+    --background: 210 40% 95%; /* Azul muito claro */
+    --foreground: 210 50% 25%; /* Azul escuro para contraste */
+    --card: 210 30% 98%;
+    --card-foreground: 210 50% 25%;
+    --primary: 210 50% 60%; /* Azul suave médio */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 20% 90%;
+    --secondary-foreground: 210 50% 35%;
+    --border: 210 30% 85%;
+  }
+
+  /* 2. Rosa Suave */
+  .color-softPink {
+    --background: 350 40% 95%;
+    --foreground: 350 50% 25%;
+    --card: 350 30% 98%;
+    --card-foreground: 350 50% 25%;
+    --primary: 350 50% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 350 20% 90%;
+    --secondary-foreground: 350 50% 35%;
+    --border: 350 30% 85%;
+  }
+
+  /* 3. Verde Suave */
+  .color-softGreen {
+    --background: 120 40% 95%;
+    --foreground: 120 50% 25%;
+    --card: 120 30% 98%;
+    --card-foreground: 120 50% 25%;
+    --primary: 120 50% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 120 20% 90%;
+    --secondary-foreground: 120 50% 35%;
+    --border: 120 30% 85%;
+  }
+
+  /* 4. Amarelo Suave */
+  .color-softYellow {
+    --background: 60 40% 95%;
+    --foreground: 60 50% 25%;
+    --card: 60 30% 98%;
+    --card-foreground: 60 50% 25%;
+    --primary: 60 50% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 60 20% 90%;
+    --secondary-foreground: 60 50% 35%;
+    --border: 60 30% 85%;
+  }
+
+  /* 5. Roxo Suave */
+  .color-softPurple {
+    --background: 270 40% 95%;
+    --foreground: 270 50% 25%;
+    --card: 270 30% 98%;
+    --card-foreground: 270 50% 25%;
+    --primary: 270 50% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 270 20% 90%;
+    --secondary-foreground: 270 50% 35%;
+    --border: 270 30% 85%;
+  }
+
+  /* 6. Coral Suave */
+  .color-softCoral {
+    --background: 20 40% 95%;
+    --foreground: 20 50% 25%;
+    --card: 20 30% 98%;
+    --card-foreground: 20 50% 25%;
+    --primary: 20 50% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 20 20% 90%;
+    --secondary-foreground: 20 50% 35%;
+    --border: 20 30% 85%;
+  }
+
+  /* 7. Verde-Água Suave */
+  .color-softTeal {
+    --background: 180 40% 95%;
+    --foreground: 180 50% 25%;
+    --card: 180 30% 98%;
+    --card-foreground: 180 50% 25%;
+    --primary: 180 50% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 180 20% 90%;
+    --secondary-foreground: 180 50% 35%;
+    --border: 180 30% 85%;
+  }
+
+  /* 8. Lavanda Suave */
+  .color-softLavender {
+    --background: 290 40% 95%;
+    --foreground: 290 50% 25%;
+    --card: 290 30% 98%;
+    --card-foreground: 290 50% 25%;
+    --primary: 290 50% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 290 20% 90%;
+    --secondary-foreground: 290 50% 35%;
+    --border: 290 30% 85%;
+  }
+
+  /* 9. Menta Suave */
+  .color-softMint {
+    --background: 160 40% 95%;
+    --foreground: 160 50% 25%;
+    --card: 160 30% 98%;
+    --card-foreground: 160 50% 25%;
+    --primary: 160 50% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 160 20% 90%;
+    --secondary-foreground: 160 50% 35%;
+    --border: 160 30% 85%;
+  }
+
+  /* 10. Rosa Pétala Suave */
+  .color-softRose {
+    --background: 340 40% 95%;
+    --foreground: 340 50% 25%;
+    --card: 340 30% 98%;
+    --card-foreground: 340 50% 25%;
+    --primary: 340 50% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 340 20% 90%;
+    --secondary-foreground: 340 50% 35%;
+    --border: 340 30% 85%;
+  }
+
+  /* 11. Pêssego Suave */
+  .color-softPeach {
+    --background: 30 40% 95%;
+    --foreground: 30 50% 25%;
+    --card: 30 30% 98%;
+    --card-foreground: 30 50% 25%;
+    --primary: 30 50% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 30 20% 90%;
+    --secondary-foreground: 30 50% 35%;
+    --border: 30 30% 85%;
+  }
+
+  /* 12. Azul Céu Suave */
+  .color-softSky {
+    --background: 200 40% 95%;
+    --foreground: 200 50% 25%;
+    --card: 200 30% 98%;
+    --card-foreground: 200 50% 25%;
+    --primary: 200 50% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 200 20% 90%;
+    --secondary-foreground: 200 50% 35%;
+    --border: 200 30% 85%;
+  }
+
+  /* 13. Âmbar Suave */
+  .color-softAmber {
+    --background: 45 40% 95%;
+    --foreground: 45 50% 25%;
+    --card: 45 30% 98%;
+    --card-foreground: 45 50% 25%;
+    --primary: 45 50% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 45 20% 90%;
+    --secondary-foreground: 45 50% 35%;
+    --border: 45 30% 85%;
+  }
+
+  /* 14. Esmeralda Suave */
+  .color-softEmerald {
+    --background: 140 40% 95%;
+    --foreground: 140 50% 25%;
+    --card: 140 30% 98%;
+    --card-foreground: 140 50% 25%;
+    --primary: 140 50% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 140 20% 90%;
+    --secondary-foreground: 140 50% 35%;
+    --border: 140 30% 85%;
+  }
+
+  /* 15. Lilás Suave */
+  .color-softLilac {
+    --background: 280 40% 95%;
+    --foreground: 280 50% 25%;
+    --card: 280 30% 98%;
+    --card-foreground: 280 50% 25%;
+    --primary: 280 50% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 280 20% 90%;
+    --secondary-foreground: 280 50% 35%;
+    --border: 280 30% 85%;
+  }
+
+  /* 16. Água Cristalina Suave */
+  .color-softAqua {
+    --background: 190 40% 95%;
+    --foreground: 190 50% 25%;
+    --card: 190 30% 98%;
+    --card-foreground: 190 50% 25%;
+    --primary: 190 50% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 190 20% 90%;
+    --secondary-foreground: 190 50% 35%;
+    --border: 190 30% 85%;
+  }
+
+  /* 17. Creme Suave */
+  .color-softCream {
+    --background: 50 40% 95%;
+    --foreground: 50 50% 25%;
+    --card: 50 30% 98%;
+    --card-foreground: 50 50% 25%;
+    --primary: 50 50% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 50 20% 90%;
+    --secondary-foreground: 50 50% 35%;
+    --border: 50 30% 85%;
+  }
+
+  /* 18. Blush Suave */
+  .color-softBlush {
+    --background: 330 40% 95%;
+    --foreground: 330 50% 25%;
+    --card: 330 30% 98%;
+    --card-foreground: 330 50% 25%;
+    --primary: 330 50% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 330 20% 90%;
+    --secondary-foreground: 330 50% 35%;
+    --border: 330 30% 85%;
+  }
+
+  /* 19. Gelo Suave */
+  .color-softFrost {
+    --background: 195 40% 95%;
+    --foreground: 195 50% 25%;
+    --card: 195 30% 98%;
+    --card-foreground: 195 50% 25%;
+    --primary: 195 50% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 195 20% 90%;
+    --secondary-foreground: 195 50% 35%;
+    --border: 195 30% 85%;
+  }
+
+  /* 20. Pérola Suave */
+  .color-softPearl {
+    --background: 220 15% 95%;
+    --foreground: 220 30% 25%;
+    --card: 220 10% 98%;
+    --card-foreground: 220 30% 25%;
+    --primary: 220 20% 65%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 10% 90%;
+    --secondary-foreground: 220 30% 35%;
+    --border: 220 15% 85%;
+  }
