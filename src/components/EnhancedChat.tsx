@@ -226,12 +226,28 @@ export const EnhancedChat = ({
               await saveConfig({ userAvatar: newAvatar });
               toast.success('✅ Avatar do criador salvo!');
             } else {
-              // Usar o hook useGuestData para salvar avatar do visitante
-              updateGuestProfile({ avatarUrl: newAvatar });
-              setGuestProfile(prev => ({ ...prev, avatarUrl: newAvatar }));
-              window.dispatchEvent(new CustomEvent('guest-profile-updated', { detail: { avatarUrl: newAvatar } }));
-              toast.success('✅ Avatar do visitante atualizado!');
-            }
+               // Usar o hook useGuestData para salvar avatar do visitante
+               updateGuestProfile({ avatarUrl: newAvatar });
+               setGuestProfile(prev => ({ ...prev, avatarUrl: newAvatar }));
+               
+               // Also update in guest_profiles table for followers system
+               try {
+                 await supabase
+                   .from('guest_profiles')
+                   .upsert({
+                     session_id: guestData.sessionId,
+                     display_name: guestProfile.displayName || guestData.displayName,
+                     avatar_url: newAvatar
+                   });
+               } catch (error) {
+                 console.log('Guest avatar update for followers system:', error);
+               }
+               
+               window.dispatchEvent(new CustomEvent('guest-profile-updated', { 
+                 detail: { avatarUrl: newAvatar, sessionId: guestData.sessionId } 
+               }));
+               toast.success('✅ Avatar do visitante atualizado!');
+             }
           
           setShowProfileImageDialog(false);
         };
@@ -499,9 +515,27 @@ export const EnhancedChat = ({
                   if (isCreator) {
                     await saveConfig({ userName: newName });
                   } else {
+                    // Update guest profile for followers system
                     updateGuestProfile({ displayName: newName });
                     setGuestProfile(prev => ({ ...prev, displayName: newName }));
-                    window.dispatchEvent(new CustomEvent('guest-profile-updated', { detail: { displayName: newName } }));
+                    
+                    // Also update in guest_profiles table for followers system
+                    try {
+                      await supabase
+                        .from('guest_profiles')
+                        .upsert({
+                          session_id: guestData.sessionId,
+                          display_name: newName,
+                          avatar_url: guestProfile.avatarUrl || guestData.avatarUrl
+                        });
+                    } catch (error) {
+                      console.log('Guest profile update for followers system:', error);
+                    }
+                    
+                    // Dispatch event for other components
+                    window.dispatchEvent(new CustomEvent('guest-profile-updated', { 
+                      detail: { displayName: newName, sessionId: guestData.sessionId } 
+                    }));
                   }
                 }}
                 placeholder={isCreator ? "Nome do criador" : "Seu nome"}
@@ -525,17 +559,33 @@ export const EnhancedChat = ({
                 {['happy', 'smile', 'cool', 'cute', 'fun', 'sweet', 'star', 'magic', 'sunny', 'ocean', 'forest', 'galaxy'].map(seed => <button key={seed} onClick={async () => {
                 const newAvatar = `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}`;
                 
-                if (isCreator) {
-                  // Salvar avatar do criador no banco de dados
-                  await saveConfig({ userAvatar: newAvatar });
-                  toast.success('✅ Avatar do criador salvo!');
-                } else {
-                  // Usar o hook useGuestData para salvar avatar do visitante
-                  updateGuestProfile({ avatarUrl: newAvatar });
-                  setGuestProfile(prev => ({ ...prev, avatarUrl: newAvatar }));
-                  window.dispatchEvent(new CustomEvent('guest-profile-updated', { detail: { avatarUrl: newAvatar } }));
-                  toast.success('✅ Avatar do visitante atualizado!');
-                }
+                 if (isCreator) {
+                   // Salvar avatar do criador no banco de dados
+                   await saveConfig({ userAvatar: newAvatar });
+                   toast.success('✅ Avatar do criador salvo!');
+                 } else {
+                   // Usar o hook useGuestData para salvar avatar do visitante
+                   updateGuestProfile({ avatarUrl: newAvatar });
+                   setGuestProfile(prev => ({ ...prev, avatarUrl: newAvatar }));
+                   
+                   // Also update in guest_profiles table for followers system
+                   try {
+                     await supabase
+                       .from('guest_profiles')
+                       .upsert({
+                         session_id: guestData.sessionId,
+                         display_name: guestProfile.displayName || guestData.displayName,
+                         avatar_url: newAvatar
+                       });
+                   } catch (error) {
+                     console.log('Guest avatar update for followers system:', error);
+                   }
+                   
+                   window.dispatchEvent(new CustomEvent('guest-profile-updated', { 
+                     detail: { avatarUrl: newAvatar, sessionId: guestData.sessionId } 
+                   }));
+                   toast.success('✅ Avatar do visitante atualizado!');
+                 }
                 
                 setShowProfileImageDialog(false);
               }} className="w-12 h-12 rounded-full overflow-hidden border-2 border-transparent hover:border-primary transition-all hover:scale-110">
