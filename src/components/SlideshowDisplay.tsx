@@ -65,48 +65,7 @@ export const SlideshowDisplay: React.FC<SlideshowDisplayProps> = ({
             />
           )}
 
-          {/* Price overlay */}
-          {currentMedia.price && (
-            <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2">
-              {(() => {
-                try {
-                  const priceConfig = typeof currentMedia.price === 'string' && currentMedia.price.startsWith('{') 
-                    ? JSON.parse(currentMedia.price) 
-                    : null;
-                  
-                  if (priceConfig) {
-                    return (
-                      <div
-                        className={`font-bold px-4 py-2 rounded-lg text-2xl ${
-                          priceConfig.hasBlinkAnimation ? 'animate-pulse' : ''
-                        }`}
-                        style={{
-                          fontFamily: priceConfig.fontFamily,
-                          fontSize: `${Math.max(priceConfig.fontSize * 1.5, 24)}px`,
-                          color: priceConfig.textColor,
-                          backgroundColor: priceConfig.isTransparent ? 'transparent' : priceConfig.backgroundColor,
-                        }}
-                      >
-                        {currentMedia.is_blurred ? '🔒 ' : ''}{priceConfig.text}
-                      </div>
-                    );
-                  } else {
-                    return (
-                      <div className="bg-black/70 text-white font-bold px-4 py-2 rounded-lg text-xl">
-                        {currentMedia.is_blurred ? '🔒 ' : ''}{currentMedia.price}
-                      </div>
-                    );
-                  }
-                } catch {
-                  return (
-                    <div className="bg-black/70 text-white font-bold px-4 py-2 rounded-lg text-xl">
-                      {currentMedia.is_blurred ? '🔒 ' : ''}{currentMedia.price}
-                    </div>
-                  );
-                }
-              })()}
-            </div>
-          )}
+          {/* Não mostrar texto de preço na tela principal/slideshow */}
 
           {/* Progress indicator */}
           <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">

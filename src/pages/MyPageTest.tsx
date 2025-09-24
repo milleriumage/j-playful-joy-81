@@ -207,13 +207,7 @@ const MyPageTest = () => {
                       loading="lazy"
                     />
                   )}
-                  {mainMedia.price && (
-                    <div className="absolute top-2 right-2">
-                      <Badge variant="secondary" className="bg-black/80 text-white">
-                        {typeof mainMedia.price === 'string' ? JSON.parse(mainMedia.price).text : mainMedia.price}
-                      </Badge>
-                    </div>
-                  )}
+                  {/* Não mostrar texto de preço na tela principal */}
                   {mainMedia.is_main && (
                     <div className="absolute top-2 left-2">
                       <Badge variant="default" className="bg-yellow-500">

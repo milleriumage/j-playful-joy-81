@@ -1220,8 +1220,8 @@ export const MediaShowcase = React.memo(({
                           </div>
                         </div>}
 
-                      {/* Price overlay - Show on all images with price, regardless of blur */}
-                      {item.price && <div className={`absolute left-1/2 transform -translate-x-1/2 overflow-hidden ${timer && timer.isActive ? 'top-16' : 'top-1/2 translate-y-2'}`}>
+                      {/* Price overlay - Show only in vitrine, not when media is main */}
+                      {item.price && !item.is_main && <div className={`absolute left-1/2 transform -translate-x-1/2 overflow-hidden ${timer && timer.isActive ? 'top-16' : 'top-1/2 translate-y-2'}`}>
                           {(() => {
                     try {
                       // Try to parse price as JSON for priceConfig, fallback to simple text
