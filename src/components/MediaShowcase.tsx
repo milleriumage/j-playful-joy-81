@@ -1092,27 +1092,45 @@ export const MediaShowcase = React.memo(({
                       return newSet;
                     });
                   }
-                 }} /> : <video 
-                  src={getMediaUrl(item.storage_path)} 
-                  preload="metadata" 
-                  muted 
-                  playsInline
-                  className={`w-full h-32 object-cover rounded-lg cursor-pointer transition-all duration-300 ${item.is_blurred && (!item.hover_unblur || !hoveredItems.has(item.id)) ? 'blur-md' : ''}`} 
-                  title={item.description || ""} 
-                  onClick={() => handleMediaClick(item)} 
-                  onMouseEnter={() => {
-                  if (item.hover_unblur && item.is_blurred) {
-                    setHoveredItems(prev => new Set(prev).add(item.id));
-                  }
-                }} onMouseLeave={() => {
-                  if (item.hover_unblur && item.is_blurred) {
-                    setHoveredItems(prev => {
-                      const newSet = new Set(prev);
-                      newSet.delete(item.id);
-                      return newSet;
-                    });
-                  }
-                }} />}
+                 }} /> : <div 
+                      className={`relative w-full h-32 bg-gray-900 rounded-lg overflow-hidden cursor-pointer transition-all duration-300 ${item.is_blurred && (!item.hover_unblur || !hoveredItems.has(item.id)) ? 'blur-md' : ''}`}
+                      title={item.description || ""}
+                      onClick={() => handleMediaClick(item)}
+                      onMouseEnter={() => {
+                        if (item.hover_unblur && item.is_blurred) {
+                          setHoveredItems(prev => new Set(prev).add(item.id));
+                        }
+                      }} 
+                      onMouseLeave={() => {
+                        if (item.hover_unblur && item.is_blurred) {
+                          setHoveredItems(prev => {
+                            const newSet = new Set(prev);
+                            newSet.delete(item.id);
+                            return newSet;
+                          });
+                        }
+                      }}
+                    >
+                      <video 
+                        src={getMediaUrl(item.storage_path)} 
+                        poster={getMediaUrl(item.storage_path) + '#t=0.5'}
+                        preload="metadata" 
+                        muted 
+                        playsInline
+                        className="w-full h-32 object-cover"
+                        onLoadedData={(e) => {
+                          const video = e.currentTarget;
+                          video.currentTime = 0.5;
+                        }}
+                        onError={(e) => {
+                          console.warn('Video failed to load:', getMediaUrl(item.storage_path));
+                        }}
+                      />
+                      {/* Play icon overlay */}
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/40 transition-colors">
+                        <PlayCircle className="w-8 h-8 text-white opacity-80" />
+                      </div>
+                    </div>}
                        
                         {/* Like button - Top left */}
                         <div className="absolute top-2 left-2 z-10">
