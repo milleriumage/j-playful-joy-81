@@ -478,10 +478,14 @@ const UserView = () => {
                 return;
               }
 
-              // Depois define a mídia selecionada como principal
+              // Depois define a mídia selecionada como principal E remove o blur/lock já que foi comprada
               const { error: setMainError } = await supabase
                 .from('media_items')
-                .update({ is_main: true })
+                .update({ 
+                  is_main: true,
+                  is_blurred: false, // Remove blur após compra
+                  is_locked: false   // Remove lock após compra
+                })
                 .eq('id', mediaId)
                 .eq('user_id', creatorId);
 
@@ -495,7 +499,10 @@ const UserView = () => {
               setMediaItems(prevItems => 
                 prevItems.map(item => ({
                   ...item,
-                  is_main: item.id === mediaId
+                  is_main: item.id === mediaId,
+                  // Se for a mídia que foi definida como principal, remove blur e lock
+                  is_blurred: item.id === mediaId ? false : item.is_blurred,
+                  is_locked: item.id === mediaId ? false : item.is_locked
                 }))
               );
 
