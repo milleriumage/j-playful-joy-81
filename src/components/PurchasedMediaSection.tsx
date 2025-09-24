@@ -82,28 +82,13 @@ export const PurchasedMediaSection = ({ onSetAsMain }: PurchasedMediaSectionProp
               {/* Preview da mídia */}
               <div className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden bg-gray-100">
                 {media.type === 'video' ? (
-                  <div className="relative w-full h-full bg-gray-900">
-                    <video
-                      src={getMediaUrl(media.storage_path)}
-                      poster={getMediaUrl(media.storage_path) + '#t=0.5'}
-                      preload="metadata"
-                      className="w-full h-full object-cover"
-                      muted
-                      playsInline
-                      onLoadedData={(e) => {
-                        const video = e.currentTarget;
-                        video.currentTime = 0.5;
-                      }}
-                      onError={(e) => {
-                        console.warn('Video failed to load:', getMediaUrl(media.storage_path));
-                      }}
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                      <div className="w-4 h-4 bg-white/80 rounded-full flex items-center justify-center">
-                        <div className="w-0 h-0 border-l-[3px] border-l-gray-900 border-y-[2px] border-y-transparent ml-[1px]"></div>
-                      </div>
-                    </div>
-                  </div>
+                  <video
+                    src={getMediaUrl(media.storage_path)}
+                    preload="metadata"
+                    className="w-full h-full object-cover"
+                    muted
+                    playsInline
+                  />
                 ) : (
                   <img 
                     src={getMediaUrl(media.storage_path)} 

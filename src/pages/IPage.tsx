@@ -19,9 +19,6 @@ import { LanguageSelector } from '@/components/LanguageSelector';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { StripePublicKeyDialog } from '@/components/StripePublicKeyDialog';
 import SupportBubble from '@/components/SupportBubble';
-
-type ThemeType = 'light' | 'dark' | 'pink';
-
 // Usando imagem placeholder temporária
 const profileImage = '/lovable-uploads/4bb15841-814d-4462-aa20-1488516e0562.png';
 
@@ -75,7 +72,6 @@ export default function IPage() {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [showStripeKeyDialog, setShowStripeKeyDialog] = useState(false);
   const [isDarkTheme, setIsDarkTheme] = useState(true);
-  const [currentTheme, setCurrentTheme] = useState<ThemeType>('dark');
   const { language, setLanguage, t } = useLanguage();
   const defaultUserId = '171c4bb2-9fdd-4c5e-a340-c3f2c8c89e07';
   const {
@@ -335,8 +331,11 @@ export default function IPage() {
         </div>
       </div>;
   }
-  return <div className="min-h-screen overflow-hidden pink-palette">
-      <div className="fixed inset-0 bg-gradient-pink opacity-20"></div>
+  return <div className={`min-h-screen overflow-hidden ${
+    isDarkTheme 
+      ? 'bg-gradient-to-br from-blue-600 via-purple-600 to-purple-800' 
+      : 'bg-gradient-to-br from-red-50 via-white to-red-50'
+  }`}>
       {/* Language Selector and Theme Toggle */}
       <div className="fixed top-4 right-4 z-50 flex items-center gap-4">
         <LanguageSelector 
@@ -344,8 +343,8 @@ export default function IPage() {
           onLanguageChange={setLanguage}
         />
         <ThemeToggle 
-          currentTheme={currentTheme}
-          onThemeChange={setCurrentTheme}
+          isDarkTheme={isDarkTheme}
+          onThemeChange={setIsDarkTheme}
         />
       </div>
 

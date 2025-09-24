@@ -1239,16 +1239,7 @@ const Index = () => {
               setTimeout(() => {
                 setShowUserDialog(true);
               }, 200);
-          }}
-                  onLoadedData={(e) => {
-                    const video = e.currentTarget;
-                    video.currentTime = 0.5;
-                  }}
-                  onError={(e) => {
-                    console.warn('Video failed to load:', getMediaUrl(mainMedia.storage_path));
-                  }}
-                />
-              </div>
+            }} />
             
             <MenuDropdown onImageUpload={handleImageUploadFromSettings} onVideoUpload={handleVideoUploadFromSettings} onSaveState={handleSaveState} onLoadState={handleLoadState} onTimerClick={() => handlePasswordVerification("set-timer", () => setShowTimerDialog(true))} disabled={hasPassword && isLocked} />
           </div>
@@ -1296,9 +1287,8 @@ const Index = () => {
                   </div>
                 </div>}
 
-              {mainMedia.type === 'video' ? <div className="relative w-full h-full bg-gray-900"><video 
-                  src={getMediaUrl(mainMedia.storage_path)} 
-                  poster={getMediaUrl(mainMedia.storage_path) + '#t=0.5'}
+              {mainMedia.type === 'video' ? <video 
+                src={getMediaUrl(mainMedia.storage_path)} 
                 preload="metadata"
                 muted
                 playsInline
@@ -1422,16 +1412,7 @@ const Index = () => {
         }));
         setSlideshowMinimized(false);
         toast.info("⏹️ Slideshow finalizado");
-          }}
-                  onLoadedData={(e) => {
-                    const video = e.currentTarget;
-                    video.currentTime = 0.5;
-                  }}
-                  onError={(e) => {
-                    console.warn('Video failed to load:', getMediaUrl(mainMedia.storage_path));
-                  }}
-                />
-              </div>
+      }} />
 
         {/* Indicador de slideshow minimizado */}
         {slideshowConfig.slideshowMode && slideshowMinimized && <div className="fixed bottom-4 right-4 z-40 bg-black/80 backdrop-blur-sm rounded-lg px-4 py-2 border border-white/20 shadow-lg">
