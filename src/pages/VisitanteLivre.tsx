@@ -312,7 +312,16 @@ const VisitanteLivre = () => {
 
         {/* Mídia principal - controlada por visibilitySettings */}
         {visibilitySettings.showMainMediaDisplay && <div className="relative">
-          {mainMedia.type === 'video' ? <video src={mainMediaUrl} controls className="w-full max-h-80 md:max-h-96 lg:max-h-[500px] object-contain rounded-lg cursor-pointer" onClick={() => handleMediaClick(mainMedia)} title="Mídia principal - Sempre desbloqueada no modo visitante livre" /> : <img src={mainMediaUrl} alt="Streamer" className="w-full max-h-80 md:max-h-96 lg:max-h-[500px] object-contain rounded-lg cursor-pointer" onClick={() => handleMediaClick(mainMedia)} title="Mídia principal - Sempre desbloqueada no modo visitante livre" />}
+          {mainMedia.type === 'video' ? <video 
+            src={mainMediaUrl} 
+            poster={mainMediaUrl}
+            preload="metadata"
+            muted
+            playsInline
+            controls 
+            className="w-full max-h-80 md:max-h-96 lg:max-h-[500px] object-contain rounded-lg cursor-pointer" 
+            onClick={() => handleMediaClick(mainMedia)} 
+            title="Mídia principal - Sempre desbloqueada no modo visitante livre" /> : <img src={mainMediaUrl} alt="Streamer" className="w-full max-h-80 md:max-h-96 lg:max-h-[500px] object-contain rounded-lg cursor-pointer" onClick={() => handleMediaClick(mainMedia)} title="Mídia principal - Sempre desbloqueada no modo visitante livre" />}
           {/* Overlay especial indicando que está desbloqueado */}
           <div className="absolute top-2 left-2">
             

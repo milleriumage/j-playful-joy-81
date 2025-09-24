@@ -46,10 +46,13 @@ export const MediaVitrine = ({
               ) : (
                 <video
                   src={currentMedia.url}
+                  poster={currentMedia.url}
+                  preload="metadata"
                   className="w-full h-full object-contain rounded-lg"
                   title={currentMedia.description}
                   controls
                   muted
+                  playsInline
                 />
               )}
             </div>

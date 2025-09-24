@@ -1287,7 +1287,17 @@ const Index = () => {
                   </div>
                 </div>}
 
-              {mainMedia.type === 'video' ? <video src={getMediaUrl(mainMedia.storage_path)} controls className={`w-full h-full object-cover cursor-pointer transition-all duration-300 ${mainMedia.is_blurred && (!('hover_unblur' in mainMedia && mainMedia.hover_unblur) || !hoveredMainMedia) || timer === 0 || hasPassword && isLocked ? 'blur-md' : ''}`} onClick={() => handleMediaClick(mainMedia)} title={(mainMedia as any).description || "Main display"} onMouseEnter={() => {
+              {mainMedia.type === 'video' ? <video 
+                src={getMediaUrl(mainMedia.storage_path)} 
+                poster={getMediaUrl(mainMedia.storage_path)}
+                preload="metadata"
+                muted
+                playsInline
+                controls 
+                className={`w-full h-full object-cover cursor-pointer transition-all duration-300 ${mainMedia.is_blurred && (!('hover_unblur' in mainMedia && mainMedia.hover_unblur) || !hoveredMainMedia) || timer === 0 || hasPassword && isLocked ? 'blur-md' : ''}`} 
+                onClick={() => handleMediaClick(mainMedia)} 
+                title={(mainMedia as any).description || "Main display"} 
+                onMouseEnter={() => {
             if ('hover_unblur' in mainMedia && mainMedia.hover_unblur && mainMedia.is_blurred) {
               setHoveredMainMedia(true);
             }

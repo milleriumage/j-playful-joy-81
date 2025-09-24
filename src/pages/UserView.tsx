@@ -398,7 +398,16 @@ const UserView = () => {
         {/* MÃ­dia principal - usuÃ¡rios podem ver mas com restriÃ§Ãµes */}
         {visibilitySettings.showMainMediaDisplay && (
           <div className="relative">
-            {mainMedia.type === 'video' ? <video src={mainMediaUrl} controls className={`w-full max-h-80 md:max-h-96 lg:max-h-[500px] object-contain rounded-lg cursor-pointer ${mainMedia.is_blurred ? 'blur-md' : ''}`} onClick={() => handleMediaClick(mainMedia)} title={(mainMedia as any).description || "Main display"} /> : <img src={mainMediaUrl} alt="Streamer" className={`w-full max-h-80 md:max-h-96 lg:max-h-[500px] object-contain rounded-lg cursor-pointer ${mainMedia.is_blurred ? 'blur-md' : ''}`} onClick={() => handleMediaClick(mainMedia)} title={(mainMedia as any).description || "Main display"} />}
+            {mainMedia.type === 'video' ? <video 
+              src={mainMediaUrl} 
+              poster={mainMediaUrl}
+              preload="metadata"
+              muted
+              playsInline
+              controls 
+              className={`w-full max-h-80 md:max-h-96 lg:max-h-[500px] object-contain rounded-lg cursor-pointer ${mainMedia.is_blurred ? 'blur-md' : ''}`} 
+              onClick={() => handleMediaClick(mainMedia)} 
+              title={(mainMedia as any).description || "Main display"} /> : <img src={mainMediaUrl} alt="Streamer" className={`w-full max-h-80 md:max-h-96 lg:max-h-[500px] object-contain rounded-lg cursor-pointer ${mainMedia.is_blurred ? 'blur-md' : ''}`} onClick={() => handleMediaClick(mainMedia)} title={(mainMedia as any).description || "Main display"} />}
             {/* Não mostrar texto de preço na tela principal - {mainMedia.is_blurred && mainMedia.price && <div className="absolute inset-0 flex items-center justify-center">
                 <div className="bg-foreground/70 text-background font-bold px-4 py-2 rounded-lg text-lg">
                   ðŸ”’ Buy Now {mainMedia.price}

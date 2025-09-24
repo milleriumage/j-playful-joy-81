@@ -1092,7 +1092,16 @@ export const MediaShowcase = React.memo(({
                       return newSet;
                     });
                   }
-                }} /> : <video src={getMediaUrl(item.storage_path)} className={`w-full h-32 object-cover rounded-lg cursor-pointer transition-all duration-300 ${item.is_blurred && (!item.hover_unblur || !hoveredItems.has(item.id)) ? 'blur-md' : ''}`} title={item.description || ""} onClick={() => handleMediaClick(item)} onMouseEnter={() => {
+                 }} /> : <video 
+                  src={getMediaUrl(item.storage_path)} 
+                  poster={getMediaUrl(item.storage_path)} 
+                  preload="metadata" 
+                  muted 
+                  playsInline
+                  className={`w-full h-32 object-cover rounded-lg cursor-pointer transition-all duration-300 ${item.is_blurred && (!item.hover_unblur || !hoveredItems.has(item.id)) ? 'blur-md' : ''}`} 
+                  title={item.description || ""} 
+                  onClick={() => handleMediaClick(item)} 
+                  onMouseEnter={() => {
                   if (item.hover_unblur && item.is_blurred) {
                     setHoveredItems(prev => new Set(prev).add(item.id));
                   }
@@ -1104,7 +1113,7 @@ export const MediaShowcase = React.memo(({
                       return newSet;
                     });
                   }
-                }} muted />}
+                }} />}
                        
                         {/* Like button - Top left */}
                         <div className="absolute top-2 left-2 z-10">
