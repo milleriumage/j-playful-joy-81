@@ -84,7 +84,6 @@ export const PurchasedMediaSection = ({ onSetAsMain }: PurchasedMediaSectionProp
                 {media.type === 'video' ? (
                   <video
                     src={getMediaUrl(media.storage_path)}
-                    poster={getMediaUrl(media.storage_path)}
                     preload="metadata"
                     className="w-full h-full object-cover"
                     muted

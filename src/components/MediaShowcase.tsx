@@ -1094,7 +1094,6 @@ export const MediaShowcase = React.memo(({
                   }
                  }} /> : <video 
                   src={getMediaUrl(item.storage_path)} 
-                  poster={getMediaUrl(item.storage_path)} 
                   preload="metadata" 
                   muted 
                   playsInline

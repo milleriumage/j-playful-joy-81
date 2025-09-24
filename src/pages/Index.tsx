@@ -1289,7 +1289,6 @@ const Index = () => {
 
               {mainMedia.type === 'video' ? <video 
                 src={getMediaUrl(mainMedia.storage_path)} 
-                poster={getMediaUrl(mainMedia.storage_path)}
                 preload="metadata"
                 muted
                 playsInline
