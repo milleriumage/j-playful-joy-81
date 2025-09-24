@@ -464,7 +464,47 @@ const UserView = () => {
 
         {/* Seção Meu Conteúdo Comprado - mostra compras do usuário logado na página do criador */}
         {isLoggedIn && !isCreator && creatorId && (
-          <PurchasedMediaSection />
+          <PurchasedMediaSection onSetAsMain={async (mediaId: string) => {
+            try {
+              // Primeiro, remove is_main de todas as mídias do criador
+              const { error: updateError } = await supabase
+                .from('media_items')
+                .update({ is_main: false })
+                .eq('user_id', creatorId);
+
+              if (updateError) {
+                console.error('Erro ao resetar mídia principal:', updateError);
+                toast.error("❌ Erro ao atualizar mídia");
+                return;
+              }
+
+              // Depois define a mídia selecionada como principal
+              const { error: setMainError } = await supabase
+                .from('media_items')
+                .update({ is_main: true })
+                .eq('id', mediaId)
+                .eq('user_id', creatorId);
+
+              if (setMainError) {
+                console.error('Erro ao definir mídia principal:', setMainError);
+                toast.error("❌ Erro ao definir mídia principal");
+                return;
+              }
+
+              // Atualizar estado local
+              setMediaItems(prevItems => 
+                prevItems.map(item => ({
+                  ...item,
+                  is_main: item.id === mediaId
+                }))
+              );
+
+              toast.success("⭐ Mídia ativada na tela principal!");
+            } catch (error) {
+              console.error('Erro inesperado:', error);
+              toast.error("❌ Erro inesperado ao definir mídia principal");
+            }
+          }} />
         )}
 
         <UserFloatingDialog isOpen={showUserDialog} onClose={() => setShowUserDialog(false)} />
