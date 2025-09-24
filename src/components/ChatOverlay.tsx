@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
-import { Upload, Mic, Send, Edit, Plus, X, DoorOpen, Heart, Crown } from "lucide-react";
+import { Upload, Mic, Send, Edit, Plus, X, DoorOpen, Heart, Crown, Move, RotateCcw, Minimize2, Maximize2 } from "lucide-react";
 import { toast } from "sonner";
 import { useChatControls } from "@/hooks/useChatControls";
 import { UserLinkDisplay } from "@/components/UserLinkDisplay";
@@ -17,6 +17,8 @@ import { OnlineUsersDialog } from "@/components/OnlineUsersDialog";
 import { GuestProfileDialog } from './GuestProfileDialog';
 import { useGuestData } from '@/hooks/useGuestData';
 import { useRealtimeMessages } from '@/hooks/useRealtimeMessages';
+import { useDraggableWindow } from '@/hooks/useDraggableWindow';
+import { ResizeHandles } from './ResizeHandles';
 
 interface ChatOverlayProps {
   onClose: () => void;
@@ -54,6 +56,24 @@ export const ChatOverlay = ({
   const [showProfileImageDialog, setShowProfileImageDialog] = useState(false);
   const [showOnlineUsers, setShowOnlineUsers] = useState(false);
   const [showGuestProfile, setShowGuestProfile] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const {
+    windowRef,
+    windowStyle,
+    isDragging,
+    isResizing,
+    handleDragStart,
+    handleResizeStart,
+    resetWindow,
+    centerWindow,
+  } = useDraggableWindow({
+    initialPosition: { x: window.innerWidth - 340, y: 16 },
+    initialSize: { width: 320, height: 400 },
+    minSize: { width: 280, height: 300 },
+    maxSize: { width: 600, height: 800 },
+    storageKey: 'chatOverlay'
+  });
 
   const { controls } = useChatControls();
   const { config, saveConfig } = useChatConfiguration();
@@ -230,17 +250,22 @@ export const ChatOverlay = ({
     }
   };
 
-  const chatHeight = '400px'; // Fixed height for overlay
-
   return (
-    <div className="fixed top-4 right-4 w-80 z-50">
-      <div className={`flex flex-col overflow-hidden shadow-xl ${config.fleffyMode ? 'bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 border-2 border-pink-200 rounded-3xl shadow-pink-100/50 shadow-2xl' : config.glassMorphism ? 'bg-white/10 backdrop-blur-xl border border-white/30 rounded-2xl shadow-lg' : isMinimalTheme ? 'bg-white border border-gray-200 rounded-xl' : 'bg-card/95 backdrop-blur-md border border-border/50 rounded-2xl'}`} 
-        style={{ height: chatHeight, backgroundColor: config.chatBackgroundColor !== "transparent" ? config.chatBackgroundColor : undefined }}>
+    <div ref={windowRef} style={windowStyle}>
+      <div className={`flex flex-col overflow-hidden shadow-xl relative ${config.fleffyMode ? 'bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 border-2 border-pink-200 rounded-3xl shadow-pink-100/50 shadow-2xl' : config.glassMorphism ? 'bg-white/10 backdrop-blur-xl border border-white/30 rounded-2xl shadow-lg' : isMinimalTheme ? 'bg-white border border-gray-200 rounded-xl' : 'bg-card/95 backdrop-blur-md border border-border/50 rounded-2xl'} ${isDragging ? 'shadow-2xl scale-105' : ''} transition-all duration-200`} 
+        style={{ height: '100%', backgroundColor: config.chatBackgroundColor !== "transparent" ? config.chatBackgroundColor : undefined }}>
+        
+        {/* Resize Handles */}
+        <ResizeHandles onResizeStart={handleResizeStart} />
         
         {/* Header */}
-        <div className={`flex items-center justify-between p-2 border-b ${config.fleffyMode ? 'border-pink-200/50 bg-gradient-to-r from-pink-50/80 to-purple-50/80' : isMinimalTheme ? 'border-gray-200 bg-gray-50' : 'border-border/30 bg-muted/30'}`}>
+        <div 
+          className={`flex items-center justify-between p-2 border-b cursor-move select-none ${config.fleffyMode ? 'border-pink-200/50 bg-gradient-to-r from-pink-50/80 to-purple-50/80' : isMinimalTheme ? 'border-gray-200 bg-gray-50' : 'border-border/30 bg-muted/30'}`}
+          onMouseDown={handleDragStart}
+        >
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <Move className="w-3 h-3 text-muted-foreground" />
             <span className={`text-sm font-medium ${config.fleffyMode ? 'text-pink-700' : isMinimalTheme ? 'text-gray-900' : 'text-foreground'}`}>Chat Overlay</span>
             <button 
               onClick={() => setShowOnlineUsers(true)}
@@ -249,7 +274,7 @@ export const ChatOverlay = ({
               ({onlineUsers} online)
             </button>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             {/* Exibir créditos atuais */}
             {isLoggedIn && (
               <div className={`text-xs px-2 py-1 rounded-full border ${config.fleffyMode ? 'bg-pink-100 border-pink-200 text-pink-700' : isMinimalTheme ? 'bg-green-50 border-green-200 text-green-700' : 'bg-green-100 border-green-300 text-green-700'}`}>
@@ -257,175 +282,175 @@ export const ChatOverlay = ({
               </div>
             )}
             <UserLinkDisplay className="" />
-            <Button size="sm" variant="ghost" onClick={onClose} className="h-8 w-8 rounded-full hover:bg-destructive/10 hover:text-destructive transition-colors">
-              <X className="w-4 h-4" />
+            
+            {/* Window Controls */}
+            <Button 
+              size="sm" 
+              variant="ghost" 
+              onClick={() => setIsCollapsed(!isCollapsed)} 
+              className="h-6 w-6 p-0 rounded-full hover:bg-primary/10 transition-colors"
+              title={isCollapsed ? "Expandir" : "Minimizar"}
+            >
+              {isCollapsed ? <Maximize2 className="w-3 h-3" /> : <Minimize2 className="w-3 h-3" />}
+            </Button>
+            <Button 
+              size="sm" 
+              variant="ghost" 
+              onClick={centerWindow} 
+              className="h-6 w-6 p-0 rounded-full hover:bg-primary/10 transition-colors"
+              title="Centralizar"
+            >
+              <RotateCcw className="w-3 h-3" />
+            </Button>
+            <Button size="sm" variant="ghost" onClick={onClose} className="h-6 w-6 p-0 rounded-full hover:bg-destructive/10 hover:text-destructive transition-colors">
+              <X className="w-3 h-3" />
             </Button>
           </div>
         </div>
 
-        {/* Messages Area */}
-        <div 
-          ref={messagesContainerRef}
-          className={`flex-1 overflow-y-auto p-4 space-y-3 min-h-0 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent hover:scrollbar-thumb-primary/40 ${config.fleffyMode ? 'bg-gradient-to-b from-pink-25/30 to-purple-25/30' : isMinimalTheme ? 'bg-white' : config.glassMorphism ? 'bg-transparent' : 'bg-gray-50'}`}
-        >
-          {(() => {
-            const shouldShowMessages = !isVisitor || !config.hideHistoryFromVisitors || messages.length > 0;
-            
-            if (!shouldShowMessages && isVisitor && messages.length === 0) {
-              return (
-                <div className="text-center text-muted-foreground text-sm py-8">
-                  <p>Chat vazio - histórico oculto para visitantes</p>
-                  <p className="text-xs mt-1">Apenas mensagens novas aparecerão aqui</p>
-                </div>
-              );
-            }
-            
-            return messages.map(msg => (
-              <div key={msg.id} className="group animate-fade-in" data-message-id={msg.id}>
-                <div className={`flex ${
-                  (msg.username === (config.userName || "Criador")) 
-                    ? 'justify-start' : 'justify-end'
-                } mb-4`}>
-                  <div className={`flex flex-col gap-1 max-w-[70%] ${
-                      (msg.username === (config.userName || "Criador"))
-                        ? 'items-start' : 'items-end'
-                  }`}>
-                    {/* Creator Name (only for creator messages and when enabled) */}
-                    {config.showCreatorName && msg.username === (config.userName || "Criador") && (
-                      <div className="flex items-center gap-1 px-2">
-                        <Crown className="w-3 h-3 text-yellow-500" />
-                        <span className="text-xs text-muted-foreground font-medium">
-                          {config.userName || "Criador"}
-                        </span>
-                      </div>
-                    )}
-                    
-                    <div className={`flex items-start gap-3 ${
-                      (isCreator && msg.username !== 'Visitante') || (!isCreator && msg.username === (config.userName || "Criador"))
-                        ? 'flex-row' : 'flex-row-reverse'
-                    }`}>
-                      {/* Avatar */}
-                      <div className="flex flex-col items-center gap-1">
-                        {/* Visitor name above avatar */}
-                        {msg.username !== (config.userName || "Criador") && (
-                          <span className="text-xs text-muted-foreground font-medium">
-                            {guestProfile.displayName || msg.username || 'Visitante'}
-                          </span>
+        {/* Messages Area - Hidden when collapsed */}
+        {!isCollapsed && (
+          <>
+            <div 
+              ref={messagesContainerRef}
+              className={`flex-1 overflow-y-auto p-4 space-y-3 min-h-0 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent hover:scrollbar-thumb-primary/40 ${config.fleffyMode ? 'bg-gradient-to-b from-pink-25/30 to-purple-25/30' : isMinimalTheme ? 'bg-white' : config.glassMorphism ? 'bg-transparent' : 'bg-gray-50'}`}
+            >
+              {(() => {
+                const shouldShowMessages = !isVisitor || !config.hideHistoryFromVisitors || messages.length > 0;
+                
+                if (!shouldShowMessages && isVisitor && messages.length === 0) {
+                  return (
+                    <div className="text-center text-muted-foreground text-sm py-8">
+                      <p>Chat vazio - histórico oculto para visitantes</p>
+                      <p className="text-xs mt-1">Apenas mensagens novas aparecerão aqui</p>
+                    </div>
+                  );
+                }
+                
+                return messages.map(msg => (
+                  <div key={msg.id} className="group animate-fade-in" data-message-id={msg.id}>
+                    <div className={`flex ${
+                      (msg.username === (config.userName || "Criador")) 
+                        ? 'justify-start' : 'justify-end'
+                    } mb-4`}>
+                      <div className={`flex flex-col gap-1 max-w-[70%] ${
+                          (msg.username === (config.userName || "Criador"))
+                            ? 'items-start' : 'items-end'
+                      }`}>
+                        {/* Creator Name (only for creator messages and when enabled) */}
+                        {config.showCreatorName && msg.username === (config.userName || "Criador") && (
+                          <div className="flex items-center gap-1 px-2">
+                            <Crown className="w-3 h-3 text-yellow-500" />
+                            <span className="text-xs text-muted-foreground font-medium">
+                              {config.userName || "Criador"}
+                            </span>
+                          </div>
                         )}
-                        <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 relative group">
-                          {/* Crown icon for creator */}
-                          {msg.username === (config.userName || "Criador") && (
-                            <Crown className="absolute -top-1 -right-1 w-3 h-3 text-yellow-500 z-10" />
-                          )}
-                          <img 
-                            src={
-                              msg.username !== (config.userName || "Criador")
-                                ? (guestProfile.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=visitor`)
-                                : (config.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=creator`)
-                            }
-                            alt={msg.username !== (config.userName || "Criador") ? 'Visitante' : 'Criador'} 
-                            className="w-full h-full object-cover" 
-                            onError={e => {
-                              e.currentTarget.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${msg.username !== (config.userName || "Criador") ? 'visitor' : 'creator'}`;
-                            }} 
-                          />
-                          {/* Allow visitors and creators to edit their own avatars */}
-                          {(msg.username === (config.userName || "Criador") ? isCreator : isVisitor) && (
-                            <Button
-                              size="sm" 
-                              variant="ghost" 
-                              onClick={() => {
-                                if (msg.username === (config.userName || "Criador") && isCreator) {
-                                  setShowProfileImageDialog(true);
-                                } else if (msg.username !== (config.userName || "Criador") && isVisitor) {
-                                  setShowGuestProfile(true);
+                        
+                        <div className={`flex items-start gap-3 ${
+                          (isCreator && msg.username !== 'Visitante') || (!isCreator && msg.username === (config.userName || "Criador"))
+                            ? 'flex-row' : 'flex-row-reverse'
+                        }`}>
+                          {/* Avatar */}
+                          <div className="flex flex-col items-center gap-1">
+                            {/* Visitor name above avatar */}
+                            {msg.username !== (config.userName || "Criador") && (
+                              <span className="text-xs text-muted-foreground font-medium">
+                                {guestProfile.displayName || msg.username || 'Visitante'}
+                              </span>
+                            )}
+                            <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 relative group">
+                              {/* Crown icon for creator */}
+                              {msg.username === (config.userName || "Criador") && (
+                                <Crown className="absolute -top-1 -right-1 w-3 h-3 text-yellow-500 z-10" />
+                              )}
+                              <img 
+                                src={
+                                  msg.username !== (config.userName || "Criador")
+                                    ? (guestProfile.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=visitor`)
+                                    : (config.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=creator`)
                                 }
-                              }}
-                              className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 bg-black/50 hover:bg-black/70 rounded-full transition-opacity flex items-center justify-center"
-                            >
-                              <Edit className="w-2 h-2 text-white" />
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-                     
-                      {/* Message Bubble */}
-                      <div className={`px-3 py-2 rounded-2xl text-sm ${
-                        msg.username !== (config.userName || "Criador") 
-                          ? 'bg-blue-500 text-white border'
-                          : 'bg-gray-100 text-black'
-                      }`} style={msg.username !== (config.userName || "Criador") ? {} : {
-                        backgroundColor: config.chatColor
-                      }}>
-                        {msg.message.includes('<img') ? (
-                          <div className="relative group" onClick={(e) => {
-                            const imgElement = e.currentTarget.querySelector('img');
-                            if (imgElement) {
-                              setExpandedImage(imgElement.src);
-                              setShowImageDialog(true);
-                            }
+                                alt={msg.username !== (config.userName || "Criador") ? 'Visitante' : 'Criador'} 
+                                className="w-full h-full object-cover" 
+                                onError={e => {
+                                  e.currentTarget.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${msg.username !== (config.userName || "Criador") ? 'visitor' : 'creator'}`;
+                                }} 
+                              />
+                              {/* Allow visitors and creators to edit their own avatars */}
+                              {(msg.username === (config.userName || "Criador") ? isCreator : isVisitor) && (
+                                <Button
+                                  size="sm" 
+                                  variant="ghost" 
+                                  onClick={() => {
+                                    if (msg.username === (config.userName || "Criador") && isCreator) {
+                                      setShowProfileImageDialog(true);
+                                    } else if (msg.username !== (config.userName || "Criador") && isVisitor) {
+                                      setShowGuestProfile(true);
+                                    }
+                                  }}
+                                  className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 bg-black/50 hover:bg-black/70 rounded-full transition-opacity flex items-center justify-center"
+                                >
+                                  <Edit className="w-2 h-2 text-white" />
+                                </Button>
+                              )}
+                            </div>
+                          </div>
+                         
+                          {/* Message Bubble */}
+                          <div className={`px-3 py-2 rounded-2xl text-sm ${
+                            msg.username !== (config.userName || "Criador") 
+                              ? 'bg-blue-500 text-white border'
+                              : 'bg-gray-100 text-black'
+                          }`} style={msg.username !== (config.userName || "Criador") ? {} : {
+                            backgroundColor: config.chatColor
                           }}>
                             <div dangerouslySetInnerHTML={{ __html: msg.message }} />
-                            <Button size="sm" variant="ghost" onClick={(e) => {
-                              e.stopPropagation();
-                              const imgElement = e.currentTarget.parentElement?.querySelector('img');
-                              if (imgElement) {
-                                setExpandedImage(imgElement.src);
-                                setShowImageDialog(true);
-                              }
-                            }} className="absolute top-1 right-1 p-1 bg-black/50 hover:bg-black/70 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                              <Plus className="w-2 h-2 text-white" />
-                            </Button>
                           </div>
-                        ) : (
-                          msg.message
-                        )}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            ));
-          })()}
-          {/* Invisible div for auto scroll */}
-          <div ref={messagesEndRef} />
-        </div>
-        
-        {/* Input Area */}
-        <div className={`p-3 border-t ${isMinimalTheme ? 'border-gray-200 bg-gray-50' : 'border-border/30 bg-muted/20'}`}>
-          <div className="flex gap-2 items-end">
-            {controls.allowImageUpload && (
-              <Button size="sm" variant="outline" onClick={() => fileInputRef.current?.click()} className="h-8 w-8 rounded-full bg-primary/10 border-primary/20 hover:bg-primary/20 transition-colors">
-                <Upload className="w-3 h-3 text-primary" />
-              </Button>
-            )}
-            
-            <div className="flex-1 relative">
-              <Input 
-                value={currentMessage} 
-                onChange={e => setCurrentMessage(e.target.value)} 
-                onKeyPress={e => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault();
-                    handleSendMessage();
-                  }
-                }} 
-                placeholder="Digite uma mensagem..." 
-                className="pr-10 text-sm rounded-full border-border/50 bg-background/80 backdrop-blur-sm focus:border-primary/50 transition-colors" 
-              />
-              <Button 
-                onClick={handleSendMessage} 
-                size="sm" 
-                disabled={!currentMessage.trim()} 
-                className="absolute right-1 top-1/2 -translate-y-1/2 h-6 w-6 rounded-full bg-primary hover:bg-primary/90 disabled:opacity-50 transition-all"
-              >
-                <Send className="w-3 h-3" />
-              </Button>
+                ));
+              })()}
+              <div ref={messagesEndRef} />
             </div>
-          </div>
-        </div>
+
+            {/* Input Area */}
+            <div className={`p-3 border-t ${config.fleffyMode ? 'border-pink-200/50 bg-gradient-to-r from-pink-50/80 to-purple-50/80' : isMinimalTheme ? 'border-gray-200 bg-gray-50' : 'border-border/30 bg-muted/20'}`}>
+              <div className="flex gap-2">
+                <Button onClick={() => fileInputRef.current?.click()} size="sm" variant="outline" className="flex-shrink-0">
+                  <Upload className="w-3 h-3" />
+                </Button>
+                <Button 
+                  onClick={isRecording ? stopRecording : startRecording}
+                  size="sm" 
+                  variant={isRecording ? "destructive" : "outline"}
+                  className="flex-shrink-0"
+                >
+                  <Mic className={`w-3 h-3 ${isRecording ? 'animate-pulse' : ''}`} />
+                </Button>
+                <Input 
+                  value={currentMessage}
+                  onChange={(e) => setCurrentMessage(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && (e.preventDefault(), handleSendMessage())}
+                  placeholder="Digite sua mensagem..."
+                  className="flex-1 text-sm"
+                />
+                <Button 
+                  onClick={handleSendMessage}
+                  size="sm" 
+                  disabled={!currentMessage.trim()}
+                  className="flex-shrink-0"
+                >
+                  <Send className="w-3 h-3" />
+                </Button>
+              </div>
+            </div>
+          </>
+        )}
 
         <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
+        <input ref={profileImageInputRef} type="file" accept="image/*" className="hidden" onChange={handleProfileImageUpload} />
       </div>
 
       {/* Image Dialog */}
@@ -440,89 +465,40 @@ export const ChatOverlay = ({
         </DialogContent>
       </Dialog>
 
-      {/* Profile Image Dialog */}
-      <Dialog open={showProfileImageDialog} onOpenChange={setShowProfileImageDialog}>
-        <DialogContent className="sm:max-w-lg">
-          <div className="flex flex-col items-center space-y-4 p-6">
-            <h3 className="text-lg font-semibold">Configurações de Perfil</h3>
-            
-            {/* User Name Configuration */}
-            <div className="w-full space-y-2">
-              <Label htmlFor="userName" className="text-sm font-medium">Nome do Usuário</Label>
-              <Input
-                id="userName"
-                value={isCreator ? (config.userName || '') : (guestData.displayName || '')}
-                onChange={async (e) => {
-                  const newName = e.target.value;
-                  if (isCreator) {
-                    await saveConfig({ userName: newName });
-                  } else {
-                    updateGuestProfile({ displayName: newName });
-                    setGuestProfile(prev => ({ ...prev, displayName: newName }));
-                    window.dispatchEvent(new CustomEvent('guest-profile-updated', { detail: { displayName: newName } }));
-                  }
-                }}
-                placeholder={isCreator ? "Nome do criador" : "Seu nome"}
-                className="w-full"
-              />
-            </div>
-            
-            {/* Current Avatar Preview */}
-            <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-border">
-              <img src={
-                isCreator 
-                  ? config.userAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=creator`
-                  : guestProfile.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=visitor`
-              } alt="Avatar atual" className="w-full h-full object-cover" />
-            </div>
-
-            {/* Default Avatar Options */}
-            <div className="w-full">
-              <h4 className="text-sm font-medium mb-3 text-center">Escolha um avatar padrão:</h4>
-              <div className="grid grid-cols-4 gap-3">
-                {['happy', 'smile', 'cool', 'cute', 'fun', 'sweet', 'star', 'magic', 'sunny', 'ocean', 'forest', 'galaxy'].map(seed => (
-                  <button key={seed} onClick={async () => {
-                    const newAvatar = `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}`;
-                    
-                    if (isCreator) {
-                      await saveConfig({ userAvatar: newAvatar });
-                      toast.success('✅ Avatar do criador salvo!');
-                    } else {
-                      updateGuestProfile({ avatarUrl: newAvatar });
-                      setGuestProfile(prev => ({ ...prev, avatarUrl: newAvatar }));
-                      window.dispatchEvent(new CustomEvent('guest-profile-updated', { detail: { avatarUrl: newAvatar } }));
-                      toast.success('✅ Avatar do visitante atualizado!');
-                    }
-                    
-                    setShowProfileImageDialog(false);
-                  }} className="w-12 h-12 rounded-full overflow-hidden border-2 border-transparent hover:border-primary transition-all hover:scale-110">
-                    <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}`} alt={`Avatar ${seed}`} className="w-full h-full object-cover" />
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Upload Custom Photo */}
-            <div className="w-full border-t pt-4">
-              <input ref={profileImageInputRef} type="file" accept="image/*" className="hidden" onChange={handleProfileImageUpload} />
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+      {/* Online Users Dialog */}
+      <OnlineUsersDialog 
+        open={showOnlineUsers} 
+        onOpenChange={setShowOnlineUsers} 
+        onlineCount={onlineUsers}
+        creatorId={creatorId}
+      />
 
       {/* Guest Profile Dialog */}
-      <GuestProfileDialog 
+      <GuestProfileDialog
         isOpen={showGuestProfile}
         onClose={() => setShowGuestProfile(false)}
       />
 
-      {/* Online Users Dialog */}
-      <OnlineUsersDialog 
-        open={showOnlineUsers}
-        onOpenChange={setShowOnlineUsers}
-        onlineCount={onlineUsers}
-        creatorId={creatorId}
-      />
+      {/* Profile Image Upload Dialog */}
+      <Dialog open={showProfileImageDialog} onOpenChange={setShowProfileImageDialog}>
+        <DialogContent>
+          <div className="p-4">
+            <h3 className="text-lg font-medium mb-4">Alterar Foto do Perfil</h3>
+            <input
+              ref={profileImageInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleProfileImageUpload}
+              className="mb-4"
+            />
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={() => setShowProfileImageDialog(false)}>
+                Cancelar
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
