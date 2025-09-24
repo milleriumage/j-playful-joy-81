@@ -519,17 +519,27 @@ export const EnhancedChat = ({
                     updateGuestProfile({ displayName: newName });
                     setGuestProfile(prev => ({ ...prev, displayName: newName }));
                     
-                    // Also update in guest_profiles table for followers system
-                    try {
-                      await supabase
-                        .from('guest_profiles')
-                        .upsert({
-                          session_id: guestData.sessionId,
-                          display_name: newName,
-                          avatar_url: guestProfile.avatarUrl || guestData.avatarUrl
-                        });
-                    } catch (error) {
-                      console.log('Guest profile update for followers system:', error);
+                    // Ensure the name is immediately saved to guest_profiles
+                    if (newName.trim()) {
+                      try {
+                        const { error } = await supabase
+                          .from('guest_profiles')
+                          .upsert({
+                            session_id: guestData.sessionId,
+                            display_name: newName.trim(),
+                            avatar_url: guestProfile.avatarUrl || guestData.avatarUrl
+                          }, { 
+                            onConflict: 'session_id' 
+                          });
+
+                        if (error) {
+                          console.error('Error updating guest profile:', error);
+                        } else {
+                          console.log('✅ Guest profile updated successfully:', newName);
+                        }
+                      } catch (error) {
+                        console.error('Failed to update guest profile:', error);
+                      }
                     }
                     
                     // Dispatch event for other components

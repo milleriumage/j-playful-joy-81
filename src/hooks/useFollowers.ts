@@ -136,10 +136,18 @@ export const useFollowers = (creatorId?: string) => {
 
       if (guestError) throw guestError;
 
+      // Buscar também perfis de usuários logados mais recentes
+      const { data: userProfiles, error: profilesError } = await supabase
+        .from('profiles')
+        .select('user_id, display_name, avatar_url');
+
+      if (profilesError) throw profilesError;
+
       // Combinar dados
       const followersData = (allFollowers || []).map(follower => {
-        // Verificar se é usuário logado
-        const userProfile = (data || []).find(p => p.follower_id === follower.follower_id);
+        // Verificar se é usuário logado (priorizar perfis mais recentes)
+        const userProfile = (userProfiles || []).find(p => p.user_id === follower.follower_id) ||
+                            (data || []).find(p => p.follower_id === follower.follower_id);
         
         if (userProfile) {
           return {
@@ -277,13 +285,22 @@ export const useFollowers = (creatorId?: string) => {
 
         // Se é um visitante, salvar dados do perfil na nova tabela
         if (!user?.id && guestData.sessionId) {
-          await supabase
-            .from('guest_profiles')
-            .upsert({
+          try {
+            await supabase
+              .from('guest_profiles')
+              .upsert({
+                session_id: guestData.sessionId,
+                display_name: guestData.displayName || 'Visitante',
+                avatar_url: guestData.avatarUrl || null
+              }, { onConflict: 'session_id' });
+            
+            console.log('✅ Guest profile saved on follow:', {
               session_id: guestData.sessionId,
-              display_name: guestData.displayName || 'Visitante',
-              avatar_url: guestData.avatarUrl || null
+              display_name: guestData.displayName
             });
+          } catch (error) {
+            console.error('Error saving guest profile on follow:', error);
+          }
         }
 
         setIsFollowing(true);

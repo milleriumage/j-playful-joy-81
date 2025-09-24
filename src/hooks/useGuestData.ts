@@ -143,18 +143,22 @@ export const useGuestData = () => {
     setGuestData(prev => {
       const updated = { ...prev, ...updates };
       
-      // Sincronizar com a tabela guest_profiles no Supabase
-      if (prev.sessionId) {
+      // Sincronizar com a tabela guest_profiles no Supabase com validação
+      if (prev.sessionId && (updates.displayName || updates.avatarUrl)) {
+        const profileData = {
+          session_id: prev.sessionId,
+          display_name: updates.displayName?.trim() || updated.displayName || null,
+          avatar_url: updates.avatarUrl || updated.avatarUrl || null
+        };
+
         supabase
           .from('guest_profiles')
-          .upsert({
-            session_id: prev.sessionId,
-            display_name: updated.displayName || null,
-            avatar_url: updated.avatarUrl || null
-          })
+          .upsert(profileData, { onConflict: 'session_id' })
           .then(({ error }) => {
             if (error) {
               console.error('Error syncing guest profile to Supabase:', error);
+            } else {
+              console.log('✅ Guest profile synced to database:', profileData);
             }
           });
       }
