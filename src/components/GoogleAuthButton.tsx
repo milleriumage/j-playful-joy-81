@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button';
 import { useGoogleAuth } from '@/hooks/useGoogleAuth';
 import { AuthDialog } from './AuthDialog';
 import { UserFloatingDialog } from './UserFloatingDialog';
+import { Home } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface GoogleAuthButtonProps {
   onLoginSuccess: () => void;
@@ -13,6 +15,7 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({ onLoginSucce
   const [justLoggedIn, setJustLoggedIn] = useState(false);
   const [showAuthDialog, setShowAuthDialog] = useState(false);
   const [showUserDialog, setShowUserDialog] = useState(false);
+  const navigate = useNavigate();
 
   // Monitor user state changes to trigger login success callback only on fresh login
   useEffect(() => {
@@ -41,27 +44,42 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({ onLoginSucce
     setJustLoggedIn(true);
   };
 
+  const handleHomeClick = () => {
+    navigate('/');
+  };
+
   return (
     <>
-      <Button
-        size="sm"
-        onClick={handleClick}
-        disabled={isLoading}
-        className="bg-primary/10 hover:bg-primary/20 border border-primary/30 text-primary rounded-full p-2 transition-colors"
-        title={user ? "Perfil do usuário" : "Login com Google"}
-      >
-        {user ? (
-          // Mostrar avatar do usuário quando logado - mantém ícone consistente
-          <div className="w-4 h-4 rounded-full flex items-center justify-center">
-            <span className="text-xs">👤</span>
-          </div>
-        ) : (
-          // Mostrar ícone universal quando não logado
-          <div className="w-4 h-4 rounded-full flex items-center justify-center">
-            <span className="text-xs">🔑</span>
-          </div>
-        )}
-      </Button>
+      <div className="flex items-center gap-2">
+        <Button
+          size="sm"
+          onClick={handleHomeClick}
+          className="bg-primary/10 hover:bg-primary/20 border border-primary/30 text-primary rounded-full p-2 transition-colors"
+          title="Página inicial"
+        >
+          <Home className="w-4 h-4" />
+        </Button>
+        
+        <Button
+          size="sm"
+          onClick={handleClick}
+          disabled={isLoading}
+          className="bg-primary/10 hover:bg-primary/20 border border-primary/30 text-primary rounded-full p-2 transition-colors"
+          title={user ? "Perfil do usuário" : "Login com Google"}
+        >
+          {user ? (
+            // Mostrar avatar do usuário quando logado - mantém ícone consistente
+            <div className="w-4 h-4 rounded-full flex items-center justify-center">
+              <span className="text-xs">👤</span>
+            </div>
+          ) : (
+            // Mostrar ícone universal quando não logado
+            <div className="w-4 h-4 rounded-full flex items-center justify-center">
+              <span className="text-xs">🔑</span>
+            </div>
+          )}
+        </Button>
+      </div>
 
       {/* Dialog de autenticação para login/signup */}
       <AuthDialog
