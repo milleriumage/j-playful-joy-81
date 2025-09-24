@@ -335,11 +335,8 @@ export default function IPage() {
         </div>
       </div>;
   }
-  return <div className={`min-h-screen overflow-hidden ${
-    isDarkTheme 
-      ? 'bg-gradient-to-br from-blue-600 via-purple-600 to-purple-800' 
-      : 'bg-gradient-to-br from-red-50 via-white to-red-50'
-  }`}>
+  return <div className="min-h-screen overflow-hidden pink-palette">
+      <div className="fixed inset-0 bg-gradient-pink opacity-20"></div>
       {/* Language Selector and Theme Toggle */}
       <div className="fixed top-4 right-4 z-50 flex items-center gap-4">
         <LanguageSelector 
