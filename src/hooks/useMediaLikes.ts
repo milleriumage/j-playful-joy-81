@@ -3,6 +3,39 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useGuestData } from './useGuestData';
 
+// Helper function to record like interaction  
+const recordLikeInteraction = async (mediaId: string, userId?: string) => {
+  try {
+    let userIp = null;
+    let userAgent = null;
+    
+    try {
+      const ipResponse = await fetch('https://api.ipify.org?format=json');
+      const ipData = await ipResponse.json();
+      userIp = ipData.ip;
+      userAgent = navigator.userAgent;
+    } catch (error) {
+      console.log('Could not get user tracking data:', error);
+    }
+
+    const { error } = await supabase
+      .from('media_interactions')
+      .insert({
+        media_id: mediaId,
+        user_id: userId || null,
+        interaction_type: 'like',
+        user_ip: userIp,
+        user_agent: userAgent
+      });
+
+    if (!error) {
+      console.log('✅ Like interaction recorded');
+    }
+  } catch (error) {
+    console.error('Error recording like interaction:', error);
+  }
+};
+
 export const useMediaLikes = (mediaId?: string) => {
   const [likesCount, setLikesCount] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
@@ -109,6 +142,10 @@ export const useMediaLikes = (mediaId?: string) => {
 
         setIsLiked(true);
         setLikesCount(prev => prev + 1);
+        
+        // Registrar como interação no sistema de estatísticas
+        await recordLikeInteraction(mediaId, userId);
+        
         toast.success('Mídia curtida!');
       }
     } catch (error) {

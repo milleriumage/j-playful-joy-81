@@ -1106,12 +1106,12 @@ export const MediaShowcase = React.memo(({
                   }
                 }} muted />}
                        
-                       {/* Like button - Top left */}
-                       <div className="absolute top-2 left-2 z-10">
-                         <Button onClick={() => toggleLike(item.id)} size="sm" variant="ghost" className="h-8 w-8 p-0 bg-black/20 hover:bg-black/40 rounded-full" title="Curtir">
-                           <Heart className={`w-4 h-4 ${likedItems.has(item.id) ? 'text-red-500 fill-red-500' : 'text-white'}`} />
-                         </Button>
-                        </div>
+                        {/* Like button - Top left */}
+                        <div className="absolute top-2 left-2 z-10">
+                          <Button onClick={() => toggleLike(item.id)} size="sm" variant="ghost" className="h-8 w-8 p-0 bg-black/20 hover:bg-black/40 rounded-full" title="Curtir">
+                            <Heart className={`w-4 h-4 ${likedItems.has(item.id) ? 'text-red-500 fill-red-500' : 'text-white'}`} />
+                          </Button>
+                         </div>
 
                         {/* Share button - Top right */}
                         <div className="absolute top-2 right-2 z-10">

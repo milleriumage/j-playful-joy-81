@@ -5,6 +5,7 @@ import { CreditPurchaseDialog } from './CreditPurchaseDialog';
 import { AddCreditsDialog } from './AddCreditsDialog';
 import { useOptimizedAuth } from '@/hooks/useOptimizedAuth';
 import { useUserCredits } from '@/hooks/useUserCredits';
+import { useMediaInteractions } from '@/hooks/useMediaInteractions';
 import { toast } from 'sonner';
 
 interface PriceConfig {
@@ -47,9 +48,13 @@ export const CreditPurchaseButton = ({
   const [showAddCreditsDialog, setShowAddCreditsDialog] = useState(false);
   const { user } = useOptimizedAuth();
   const { credits } = useUserCredits();
+  const { recordInteraction } = useMediaInteractions();
 
-  const handleButtonClick = () => {
+  const handleButtonClick = async () => {
     console.log('🔵 BOTÃO CLICADO - CreditPurchaseButton');
+    
+    // Registrar clique de compra como interação
+    await recordInteraction(mediaId, 'click', user?.id);
     
     // Garantir que os valores sejam números válidos
     const userCredits = Number(credits) || 0;
